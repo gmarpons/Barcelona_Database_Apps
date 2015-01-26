@@ -7,28 +7,28 @@ output:
     highlight: zenburn
 ---
 
-```{r knitr_options, include=FALSE, echo=FALSE, results="hide"}
+```{r initial_settings, include=F, echo=F, results="hide"}
 # Installing 'rmarkdown' package if necessary:
 if(!require("rmarkdown")) install.packages("rmarkdown", repos="http://cran.us.r-project.org")
 library(rmarkdown)
 if(!require("knitr")) install.packages("knitr", repos="http://cran.us.r-project.org")
 library(knitr)
-opts_chunk$set(fig.width=12, fig.height=4, warning=FALSE, message=FALSE)
+opts_chunk$set(fig.width=12, fig.height=4, warning=F, message=F)
 options(digits = 3)
 ```
 
-```{r, echo=FALSE, results="hide"}
+```{r obtaining_data, echo=F, results="hide"}
 # Obtaining and loading the dataset
 download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/info_per_barris/info_per_barris_data.csv", 
               destfile="info_per_barris_data.csv", method="wget")
-ciutat <- read.csv("info_per_barris_data.csv", header = TRUE, sep = ";", dec = ".")
+ciutat <- read.csv("info_per_barris_data.csv", header = T, sep = ";", dec = ".", na.strings=".")
 file.remove("info_per_barris_data.csv")
 ```
 
-```{r, echo=FALSE, results="hide"}
+```{r choosing_options, echo=F, results="hide"}
 # Choosing the analyzed district/neighborhood
-analyzing <- 'barri'    # write 'districte' or 'barri'
-num_analyzed <- 17      # visit 'https://github.com/AnalisiGuanyem/Barcelona_Database#readme'
+analyzing <- 'districte'    # write 'districte' or 'barri'
+num_analyzed <- 10      # visit 'https://github.com/AnalisiGuanyem/Barcelona_Database#readme'
                         # to chose the number of district or neighborhood
 
 # Name of the  district/neighborhood (automatic):
@@ -47,7 +47,7 @@ if (analyzing == "barri") {
   if (num_analyzed==10) { name_analyzed <- "Sant Martí" }
   
   # Analyzed neighborhoods in case of choosing 'district'
-  num_analyzed <- which(ciutat[,1]==num_analyzed, arr.ind = TRUE)
+  num_analyzed <- which(ciutat[,1]==num_analyzed, arr.ind = T)
   
 } else {
   quit("no")
@@ -66,21 +66,21 @@ barris <- ciutat[num_analyzed,]
  **...** | **al `r analyzing`** | **a la ciutat**
 ------------- | ------------- | -------------
  |  |  
- Abstenció eleccions generals 2011 | `r round(100*sum(barris$abstencio_g11)/sum(barris$electors_g11),1)` | `r round(100*sum(ciutat$abstencio_g11)/sum(ciutat$electors_g11),1)`
+ Abstenció eleccions generals 2011 | `r round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)` | `r round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)`
  |  |  
- Abstenció eleccions locals 2011 | `r round(100*(1-(sum(barris$votants_l11)/sum(barris$electors_l11))),1)` | `r round(100*(1-(sum(ciutat$votants_l11)/sum(ciutat$electors_l11))),1)`
- Vot a CIU eleccions locals 2011 | `r round(100*sum(barris$ciu_l11)/sum(barris$votants_l11),1)` | `r round(100*sum(ciutat$ciu_l11)/sum(ciutat$votants_l11),1)` 
- Vot a PSC eleccions locals 2011 | `r round(100*sum(barris$psc_l11)/sum(barris$votants_l11),1)` | `r round(100*sum(ciutat$psc_l11)/sum(ciutat$votants_l11),1)`
- Vot a PP eleccions locals 2011 | `r round(100*sum(barris$pp_l11)/sum(barris$votants_l11),1)` | `r round(100*sum(ciutat$pp_l11)/sum(ciutat$votants_l11),1)`
- Vot a ICV eleccions locals 2011 | `r round(100*sum(barris$icv_l11)/sum(barris$votants_l11),1)` | `r round(100*sum(ciutat$icv_l11)/sum(ciutat$votants_l11),1)`
- Vot a ERC eleccions locals 2011 | `r round(100*sum(barris$erc_l11)/sum(barris$votants_l11),1)` | `r round(100*sum(ciutat$erc_l11)/sum(ciutat$votants_l11),1)`
+ Abstenció eleccions locals 2011 | `r round(100*(1-(sum(barris$votants_l11, na.rm = T)/sum(barris$electors_l11, na.rm = T))),1)` | `r round(100*(1-(sum(ciutat$votants_l11, na.rm = T)/sum(ciutat$electors_l11, na.rm = T))),1)`
+ Vot a CIU eleccions locals 2011 | `r round(100*sum(barris$ciu_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$ciu_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)` 
+ Vot a PSC eleccions locals 2011 | `r round(100*sum(barris$psc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$psc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
+ Vot a PP eleccions locals 2011 | `r round(100*sum(barris$pp_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$pp_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
+ Vot a ICV eleccions locals 2011 | `r round(100*sum(barris$icv_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$icv_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
+ Vot a ERC eleccions locals 2011 | `r round(100*sum(barris$erc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$erc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
  |  |  
- Vot a CIU eleccions europees 2014 | `r round(100*sum(barris$ciu_eu14)/sum(barris$votants_eu14),1)` | `r round(100*sum(ciutat$ciu_eu14)/sum(ciutat$votants_eu14),1)` 
- Vot a PSC eleccions europees 2014 | `r round(100*sum(barris$psc_eu14)/sum(barris$votants_eu14),1)` | `r round(100*sum(ciutat$psc_eu14)/sum(ciutat$votants_eu14),1)`
- Vot a PP eleccions europees 2014 | `r round(100*sum(barris$pp_eu14)/sum(barris$votants_eu14),1)` | `r round(100*sum(ciutat$pp_eu14)/sum(ciutat$votants_eu14),1)`
- Vot a ICV eleccions europees 2014 | `r round(100*sum(barris$icv_eu14)/sum(barris$votants_eu14),1)` | `r round(100*sum(ciutat$icv_eu14)/sum(ciutat$votants_eu14),1)`
- Vot a ERC eleccions europees 2014 | `r round(100*sum(barris$erc_eu14)/sum(barris$votants_eu14),1)` | `r round(100*sum(ciutat$erc_eu14)/sum(ciutat$votants_eu14),1)`
- Vot a Podemos eleccions europees 2014 | `r round(100*sum(barris$pocem_eu14)/sum(barris$votants_eu14),1)` | `r round(100*sum(ciutat$pocem_eu14)/sum(ciutat$votants_eu14),1)`
+ Vot a CIU eleccions europees 2014 | `r round(100*sum(barris$ciu_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$ciu_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)` 
+ Vot a PSC eleccions europees 2014 | `r round(100*sum(barris$psc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$psc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
+ Vot a PP eleccions europees 2014 | `r round(100*sum(barris$pp_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$pp_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
+ Vot a ICV eleccions europees 2014 | `r round(100*sum(barris$icv_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$icv_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
+ Vot a ERC eleccions europees 2014 | `r round(100*sum(barris$erc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$erc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
+ Vot a Podemos eleccions europees 2014 | `r round(100*sum(barris$pocem_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$pocem_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
   |  |  
 
  
@@ -89,23 +89,45 @@ barris <- ciutat[num_analyzed,]
  **...** | **al `r analyzing`** | **a la ciutat**
 ------------- | ------------- | -------------
  |  |  
-Atur (estimació)[^1] | |
-Renda familiar bruta disponible[^2] | |
+Atur (estimació)[^1] | `r round(100*(sum(barris$total_aturats, na.rm = T)*1.38)/(sum(barris$poblacio, na.rm = T)*0.51),1)` | `r round(100*(sum(ciutat$total_aturats, na.rm = T)*1.38)/(sum(ciutat$poblacio, na.rm = T)*0.51),1)`
+Renda familiar bruta disponible[^2] | `r round(sum(barris$rfbc2012*barris$llars/sum(barris$llars, na.rm = T), na.rm = T),1)` | 100
   |  |  
   
 [^1]: Disposem a nivell de barri de dades sobre la població i sobre el nombre d'aturats registrats.
 Per calcular la taxa d'atur cal saber la taxa d'activitat (no disponible per barris) i el nombre d'aturats real (més alt que els registrats).
-Per tant, cal fer una estimació aproximada. Usant com a referència dades de la EPA del 4rt trimestre de 2013,
-hem multiplicat la població total per 0.51 per estimar la població activa i hem multiplicat l'atur registrat per 1.3 per estimar la població aturada.
+Per tant, cal fer una estimació aproximada. Usant com a referència dades de la EPA del 4rt trimestre de 2013, hem multiplicat la població
+total per 0.51 per estimar la població activa i hem multiplicat l'atur registrat per 1.38 per estimar la població aturada.
                                                                                                               
 [^2]: La renda familiar bruta disponible per barris és un índex en base a 100 que calcula el servei d'estadística de l'Ajuntament.
 
 
+ 
+## Habitatge
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Preu metre quadrat compra 2013 | `r round()` | `r round(,1)`
+Preu metre quadrat lloguer 2011 | `r round(,1)` | `r round(,1)`
+  |  |  
+Persones per llar | `r round(sum((barris$persones_per_llar*barris$llars), na.rm = T)/sum(barris$llars, na.rm = T),1)` | `r round(sum((ciutat$persones_per_llar*ciutat$llars), na.rm = T)/sum(ciutat$llars, na.rm = T),1)`
+Densitat (habitants/hectàrea) | `r round(sum((barris$densitat*barris$superficies), na.rm = T)/sum(barris$superficies, na.rm = T),1)` | `r round(sum((ciutat$densitat*ciutat$superficies), na.rm = T)/sum(ciutat$superficies, na.rm = T),1)`
+  |  |  
+Llars amb titularitat[^1] (%) | `r round(100*(sum(barris$propi_compra_pagat, na.rm = T)/sum(barris$llars, na.rm = T)),1)` | `r round(100*(sum(ciutat$propi_compra_pagat, na.rm = T)/sum(ciutat$llars, na.rm = T)),1)`
+Llars de lloguer[^1] (%) | `r round(100*(sum(barris$llogat, na.rm = T)/sum(barris$llars, na.rm = T)),1)` | `r round(100*(sum(ciutat$llogat, na.rm = T)/sum(ciutat$llars, na.rm = T)),1)`
+Llars comprades hipotecades[^1] (%) | `r round(100*(sum(barris$propi_compra_hipoteca, na.rm = T)/sum(barris$llars, na.rm = T)),1)` | `r round(100*(sum(ciutat$propi_compra_hipoteca, na.rm = T)/sum(ciutat$llars, na.rm = T)),1)`
+  |  |  
+Llars sense calefacció[^2] (%) | `r round(100*(sum(barris$sense_calefaccio, na.rm = T)/sum(barris$llars, na.rm = T)),1)` | `r round(100*(sum(ciutat$sense_calefaccio, na.rm = T)/sum(ciutat$llars, na.rm = T)),1)`
+Llars sense internet[^2] (%) | `r round(100*(sum(barris$sense_internet, na.rm = T)/sum(barris$llars, na.rm = T)),1)` | `r round(100*(sum(ciutat$sense_internet, na.rm = T)/sum(ciutat$llars, na.rm = T)),1)`
+  |  |  
+
+[^1]: Les llars per tinença no sumen 100 perquè hi ha altres tipus (ex.: cedides) que es computen per separat.
+
+[^2]: Les dades sobre percentatges de llars poden contenir errors perquè sovint sembla que hi ha sobre-estimació del nombre de llars (denominador).
 
 
-render("input.Rmd", "all")
 
 ### Versió de R i dels diferents paquets que han sigut utilitzats
-```{r sessionInfo, include=TRUE, echo=TRUE, results='markup'}:
+```{r sessionInfo, include=F, echo=F, results="hide"}:
 sessionInfo()
 ```
