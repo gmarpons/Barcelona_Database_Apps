@@ -8,7 +8,7 @@ This script takes relevant information from the Barcelona Database. It has been 
 
 *Knitr* allows you to write in the simple [*Markdown*](http://en.wikipedia.org/wiki/Markdown) language, without taking care on the formatting of the documents. It also allow adding *chunks* of R programming code to easily process the data. To install *knitr*, install the package as any other R package: `install.packages('knitr', dependencies = TRUE)`
 
-The R code *chunks* could be inserted in the middle of the text (e.g.: *I counted `r 1 + 1` red trucks on the highway*) or as block of code: 
+The R code *chunks* could be inserted in the middle of the text (e.g.: I counted `r 1 + 1` red trucks on the highway) or as block of code: 
 
 ``` {r}
 # quick summary and plot
@@ -18,4 +18,4 @@ qplot(speed, dis, data=cars) + geom_smooth()
 ```
 For more information on the combination of R code and the very simple Markdown language, you must also visit the [R Markdown website](https://github.com/rstudio/rmarkdown#readme).
 
-For more information on the script or any suggestion (very welcome!), just write us (*analisi.guanyem@gmail.com*).
+For more information on the script or any suggestion (very welcome!), contact us at analisi.guanyem@gmail.com.
