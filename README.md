@@ -18,4 +18,6 @@ qplot(speed, dis, data=cars) + geom_smooth()
 ```
 For more information on the combination of R code and the very simple Markdown language, you must also visit the [RMarkdown website](https://github.com/rstudio/rmarkdown#readme).
 
-For more information on the script or any suggestion (very welcome!), contact us at analisi.guanyem@gmail.com.
+## Contact
+
+For more information on the scripts, suggestions (very welcome!) or any other thing, please contact us at analisi.guanyem@gmail.com.
