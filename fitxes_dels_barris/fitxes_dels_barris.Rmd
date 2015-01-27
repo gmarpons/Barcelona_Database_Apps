@@ -59,14 +59,32 @@ barris <- ciutat[num_analyzed,]
 
 # `r toupper(name_analyzed)`
 
+```{r political_data, echo=F, results="hide"}
+# Creating the data frame that compile all the calculations/results
+results <- data.frame(NA,NA)
+colnames(results) <- c("barris","ciutat")
+n_results <- 0
 
+# Political data
+# ---------------
+rownames(results) <- c("Abstencio_eleccions_generals_2011")
+results["Abstencio_eleccions_generals_2011",1] <- round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)
+results["Abstencio_eleccions_generals_2011",2] <- round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)
+n_results <- n_results + 1
+results <- data.frame(rbind(results,c(NA,NA)))
+rownames(results) <- c("Abstencio_eleccions_locals_2011")
+results["Abstencio_eleccions_locals_2011",1] <- round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)
+results["Abstencio_eleccions_locals_2011",2] <- round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)
+n_results <- n_results + 1
+results <- data.frame(rbind(results,c(NA,NA)))
+```
 
 ## Dades polítiques
 
  **...** | **al `r analyzing`** | **a la ciutat**
 ------------- | ------------- | -------------
  |  |  
- Abstenció eleccions generals 2011 | `r round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)` | `r round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)`
+ Abstenció eleccions generals 2011 | `r results["Abstencio_eleccions_generals_2011",1]` | `r results["Abstencio_eleccions_generals_2011",2]`
  |  |  
  Abstenció eleccions locals 2011 | `r round(100*(1-(sum(barris$votants_l11, na.rm = T)/sum(barris$electors_l11, na.rm = T))),1)` | `r round(100*(1-(sum(ciutat$votants_l11, na.rm = T)/sum(ciutat$electors_l11, na.rm = T))),1)`
  Vot a CIU eleccions locals 2011 | `r round(100*sum(barris$ciu_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$ciu_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)` 
