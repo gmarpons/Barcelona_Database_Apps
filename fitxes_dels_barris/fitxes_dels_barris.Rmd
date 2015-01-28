@@ -20,7 +20,7 @@ options(digits = 4)
 ```{r obtaining_data, echo=F, results="hide"}
 # Obtaining and loading the dataset
 download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/info_per_barris/info_per_barris_data.csv", 
-              destfile="info_per_barris_data.csv", method="wget")
+              destfile="info_per_barris_data.csv")
 ciutat <- read.csv("info_per_barris_data.csv", header = T, sep = ";", dec = ".", na.strings=".")
 file.remove("info_per_barris_data.csv")
 ```
