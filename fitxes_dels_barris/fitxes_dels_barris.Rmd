@@ -55,28 +55,82 @@ if (analyzing == "barri") {
 
 # Small dataset being analyzed (the neghborhood or the whole district):
 barris <- ciutat[num_analyzed,]
-```
 
-# `r toupper(name_analyzed)`
-
-```{r political_data, echo=F, results="hide"}
 # Creating the data frame that compile all the calculations/results
 results <- data.frame(NA,NA)
 colnames(results) <- c("barris","ciutat")
 n_results <- 0
+```
 
-# Political data
-# ---------------
-rownames(results) <- c("Abstencio_eleccions_generals_2011")
-results["Abstencio_eleccions_generals_2011",1] <- round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)
-results["Abstencio_eleccions_generals_2011",2] <- round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)
+# `r toupper(analyzing)` `r toupper(name_analyzed)`
+
+```{r political_data, echo=F, results="hide"}
+
 n_results <- n_results + 1
-results <- data.frame(rbind(results,c(NA,NA)))
-rownames(results) <- c("Abstencio_eleccions_locals_2011")
-results["Abstencio_eleccions_locals_2011",1] <- round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)
-results["Abstencio_eleccions_locals_2011",2] <- round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)
+rownames(results)[n_results] <- c("Abstencio_eleccions_generals_2011")
+results[n_results,1] <- round(100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T),1)
+
 n_results <- n_results + 1
-results <- data.frame(rbind(results,c(NA,NA)))
+rownames(results)[n_results] <- "Abstencio_eleccions_locals_2011"
+results[n_results,1] <- round(100*(1-(sum(barris$votants_l11, na.rm = T)/sum(barris$electors_l11, na.rm = T))),1)
+results[n_results,2] <- round(100*(1-(sum(ciutat$votants_l11, na.rm = T)/sum(ciutat$electors_l11, na.rm = T))),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_CIU_eleccions_locals_2011"
+results[n_results,1] <- round(100*sum(barris$ciu_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$ciu_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_PSC_eleccions_locals_2011"
+results[n_results,1] <- round(100*sum(barris$psc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$psc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_PP_eleccions_locals_2011"
+results[n_results,1] <- round(100*sum(barris$pp_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$pp_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_ICV_eleccions_locals_2011"
+results[n_results,1] <- round(100*sum(barris$icv_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$icv_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_ERC_eleccions_locals_2011"
+results[n_results,1] <- round(100*sum(barris$erc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$erc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_CIU_eleccions_europees_2014"
+results[n_results,1] <- round(100*sum(barris$ciu_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$ciu_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_PSC_eleccions_europees_2014"
+results[n_results,1] <- round(100*sum(barris$psc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$psc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_PP_eleccions_europees_2014"
+results[n_results,1] <- round(100*sum(barris$pp_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$pp_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_ICV_eleccions_europees_2014"
+results[n_results,1] <- round(100*sum(barris$icv_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$icv_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_ERC_eleccions_europees_2014"
+results[n_results,1] <- round(100*sum(barris$erc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$erc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Vot_Podemos_eleccions_europees_2014"
+results[n_results,1] <- round(100*sum(barris$pocem_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)
+results[n_results,2] <- round(100*sum(ciutat$pocem_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)
+
 ```
 
 ## Dades polítiques
@@ -86,29 +140,45 @@ results <- data.frame(rbind(results,c(NA,NA)))
  |  |  
  Abstenció eleccions generals 2011 | `r results["Abstencio_eleccions_generals_2011",1]` | `r results["Abstencio_eleccions_generals_2011",2]`
  |  |  
- Abstenció eleccions locals 2011 | `r round(100*(1-(sum(barris$votants_l11, na.rm = T)/sum(barris$electors_l11, na.rm = T))),1)` | `r round(100*(1-(sum(ciutat$votants_l11, na.rm = T)/sum(ciutat$electors_l11, na.rm = T))),1)`
- Vot a CIU eleccions locals 2011 | `r round(100*sum(barris$ciu_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$ciu_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)` 
- Vot a PSC eleccions locals 2011 | `r round(100*sum(barris$psc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$psc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
- Vot a PP eleccions locals 2011 | `r round(100*sum(barris$pp_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$pp_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
- Vot a ICV eleccions locals 2011 | `r round(100*sum(barris$icv_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$icv_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
- Vot a ERC eleccions locals 2011 | `r round(100*sum(barris$erc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T),1)` | `r round(100*sum(ciutat$erc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T),1)`
+ Abstenció eleccions locals 2011 | `r results["Abstencio_eleccions_locals_2011",1]` | `r results["Abstencio_eleccions_locals_2011",2]`
+ Vot a CIU eleccions locals 2011 | `r results["Vot_CIU_eleccions_locals_2011",1]` | `r results["Vot_CIU_eleccions_locals_2011",2]` 
+ Vot a PSC eleccions locals 2011 | `r results["Vot_PSC_eleccions_locals_2011",1]` | `r results["Vot_PSC_eleccions_locals_2011",2]`
+ Vot a PP eleccions locals 2011 | `r results["Vot_PP_eleccions_locals_2011",1]` | `r results["Vot_PP_eleccions_locals_2011",2]`
+ Vot a ICV eleccions locals 2011 | `r results["Vot_ICV_eleccions_locals_2011",1]` | `r results["Vot_ICV_eleccions_locals_2011",2]`
+ Vot a ERC eleccions locals 2011 | `r results["Vot_ERC_eleccions_locals_2011",1]` | `r results["Vot_ERC_eleccions_locals_2011",2]`
  |  |  
- Vot a CIU eleccions europees 2014 | `r round(100*sum(barris$ciu_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$ciu_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)` 
- Vot a PSC eleccions europees 2014 | `r round(100*sum(barris$psc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$psc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
- Vot a PP eleccions europees 2014 | `r round(100*sum(barris$pp_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$pp_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
- Vot a ICV eleccions europees 2014 | `r round(100*sum(barris$icv_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$icv_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
- Vot a ERC eleccions europees 2014 | `r round(100*sum(barris$erc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$erc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
- Vot a Podemos eleccions europees 2014 | `r round(100*sum(barris$pocem_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T),1)` | `r round(100*sum(ciutat$pocem_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T),1)`
+ Vot a CIU eleccions europees 2014 | `r results["Vot_CIU_eleccions_europees_2014",1]` | `r results["Vot_CIU_eleccions_europees_2014",2]` 
+ Vot a PSC eleccions europees 2014 | `r results["Vot_PSC_eleccions_europees_2014",1]` | `r results["Vot_PSC_eleccions_europees_2014",2]`
+ Vot a PP eleccions europees 2014 | `r results["Vot_PP_eleccions_europees_2014",1]` | `r results["Vot_PP_eleccions_europees_2014",2]`
+ Vot a ICV eleccions europees 2014 | `r results["Vot_ICV_eleccions_europees_2014",1]` | `r results["Vot_ICV_eleccions_europees_2014",2]`
+ Vot a ERC eleccions europees 2014 | `r results["Vot_ERC_eleccions_europees_2014",1]` | `r results["Vot_ERC_eleccions_europees_2014",2]`
+ Vot a Podemos eleccions europees 2014 | `r results["Vot_Podemos_eleccions_europees_2014",1]` | `r results["Vot_Podemos_eleccions_europees_2014",2]`
   |  |  
 
+
+
+```{r socioeconomic_data, echo=F, results="hide"}
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Atur_estimacio"
+results[n_results,1] <- round(100*(sum(barris$total_aturats, na.rm = T)*1.38)/(sum(barris$poblacio, na.rm = T)*0.51),1)
+results[n_results,2] <- round(100*(sum(ciutat$total_aturats, na.rm = T)*1.38)/(sum(ciutat$poblacio, na.rm = T)*0.51),1)
+
+n_results <- n_results + 1
+rownames(results)[n_results] <- "Renda_familiar_bruta_disponible"
+results[n_results,1] <- round(sum(barris$rfbc2012*barris$llars/sum(barris$llars, na.rm = T), na.rm = T),1)
+results[n_results,2] <- 100
+
+
+```
  
 ## Dades socio-econòmiques
 
  **...** | **al `r analyzing`** | **a la ciutat**
 ------------- | ------------- | -------------
  |  |  
-Atur (estimació)[^1] | `r round(100*(sum(barris$total_aturats, na.rm = T)*1.38)/(sum(barris$poblacio, na.rm = T)*0.51),1)` | `r round(100*(sum(ciutat$total_aturats, na.rm = T)*1.38)/(sum(ciutat$poblacio, na.rm = T)*0.51),1)`
-Renda familiar bruta disponible[^2] | `r round(sum(barris$rfbc2012*barris$llars/sum(barris$llars, na.rm = T), na.rm = T),1)` | 100
+Atur (estimació)[^1] | `r results["Atur_estimacio",1]` | `r results["Atur_estimacio",2]`
+Renda familiar bruta disponible[^2] | `r results["Renda_familiar_bruta_disponible",1]` | `r results["Renda_familiar_bruta_disponible",2]`
   |  |  
   
 [^1]: Disposem a nivell de barri de dades sobre la població i sobre el nombre d'aturats registrats.
