@@ -1,0 +1,406 @@
+---
+title: "Perfil de barris o districte"
+author: "Grup d'Anàlisi de Dades"
+date: "31/01/2015"
+output:
+  pdf_document:
+    highlight: zenburn
+---
+
+```{r initial_settings, include=F, echo=F, results="hide"}
+# Installing 'rmarkdown' package if necessary:
+if(!require("rmarkdown")) install.packages("rmarkdown", repos="http://cran.us.r-project.org")
+library(rmarkdown)
+if(!require("knitr")) install.packages("knitr", repos="http://cran.us.r-project.org")
+library(knitr)
+opts_chunk$set(fig.width=12, fig.height=4, warning=F, message=F)
+options(digits = 4)
+```
+
+```{r obtaining_data, echo=F, results="hide"}
+# Obtaining and loading the dataset
+download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/info_per_barris/info_per_barris_data.csv", 
+<<<<<<< HEAD
+              destfile="info_per_barris_data.csv", method="curl") # install 'curl' in WINDOWS systems (http://curl.haxx.se/download.html)
+                                                                  # and install it OR change the method to 'wget' in LINUX systems.
+=======
+              destfile="info_per_barris_data.csv")
+>>>>>>> d435b14f40d692928ac0a25f52687ba801853510
+ciutat <- read.csv("info_per_barris_data.csv", header = T, sep = ";", dec = ".", na.strings=".")
+file.remove("info_per_barris_data.csv")
+```
+
+```{r choosing_options, echo=F, results="hide"}
+# Choosing the analyzed district/neighborhood
+analyzing <- 'districte'    # write 'districte' or 'barri'
+num_analyzed <- 10      # visit 'https://github.com/AnalisiGuanyem/Barcelona_Database#readme'
+                        # to chose the number of district or neighborhood
+
+# Name of the  district/neighborhood (automatic):
+if (analyzing == "barri") {
+  name_analyzed <- ciutat[num_analyzed,3]
+} else if (analyzing == "districte") {
+  if (num_analyzed==1) { name_analyzed <- "Ciutat Vella" }
+  if (num_analyzed==2) { name_analyzed <- "Eixample" }
+  if (num_analyzed==3) { name_analyzed <- "Sants-Montjuïc" }
+  if (num_analyzed==4) { name_analyzed <- "Les Corts" }
+  if (num_analyzed==5) { name_analyzed <- "Sarrià - Sant Gervasi" }
+  if (num_analyzed==6) { name_analyzed <- "Gràcia" }
+  if (num_analyzed==7) { name_analyzed <- "Horta-Guinardó" }
+  if (num_analyzed==8) { name_analyzed <- "Nou Barris" }
+  if (num_analyzed==9) { name_analyzed <- "Sant Andreu" }
+  if (num_analyzed==10) { name_analyzed <- "Sant Martí" }
+  
+  # Analyzed neighborhoods in case of choosing 'district'
+  num_analyzed <- which(ciutat[,1]==num_analyzed, arr.ind = T)
+  
+} else {
+  quit("no")
+}
+
+# Small dataset being analyzed (the neghborhood or the whole district):
+barris <- ciutat[num_analyzed,]
+
+# Creating the data frame that compile all the calculations/results
+results <- data.frame(NA,NA)
+colnames(results) <- c("barris","ciutat")
+n_results <- 0
+```
+
+# `r toupper(analyzing)` `r toupper(name_analyzed)`
+
+```{r POLITICAL_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$abstencio_g11, na.rm = T)/sum(barris$electors_g11, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$abstencio_g11, na.rm = T)/sum(ciutat$electors_g11, na.rm = T)
+rownames(results)[n_results] <- c("Abstencio_eleccions_generals_2011")
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(1-(sum(barris$votants_l11, na.rm = T)/sum(barris$electors_l11, na.rm = T)))
+results[n_results,2] <- 100*(1-(sum(ciutat$votants_l11, na.rm = T)/sum(ciutat$electors_l11, na.rm = T)))
+rownames(results)[n_results] <- "Abstencio_eleccions_locals_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$ciu_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$ciu_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T)
+rownames(results)[n_results] <- "Vot_CIU_eleccions_locals_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$psc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$psc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T)
+rownames(results)[n_results] <- "Vot_PSC_eleccions_locals_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$pp_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$pp_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T)
+rownames(results)[n_results] <- "Vot_PP_eleccions_locals_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$icv_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$icv_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T)
+rownames(results)[n_results] <- "Vot_ICV_eleccions_locals_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$erc_l11, na.rm = T)/sum(barris$votants_l11, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$erc_l11, na.rm = T)/sum(ciutat$votants_l11, na.rm = T)
+rownames(results)[n_results] <- "Vot_ERC_eleccions_locals_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$ciu_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$ciu_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T)
+rownames(results)[n_results] <- "Vot_CIU_eleccions_europees_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$psc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$psc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T)
+rownames(results)[n_results] <- "Vot_PSC_eleccions_europees_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$pp_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$pp_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T)
+rownames(results)[n_results] <- "Vot_PP_eleccions_europees_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$icv_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$icv_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T)
+rownames(results)[n_results] <- "Vot_ICV_eleccions_europees_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$erc_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$erc_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T)
+rownames(results)[n_results] <- "Vot_ERC_eleccions_europees_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$pocem_eu14, na.rm = T)/sum(barris$votants_eu14, na.rm = T)
+results[n_results,2] <- 100*sum(ciutat$pocem_eu14, na.rm = T)/sum(ciutat$votants_eu14, na.rm = T)
+rownames(results)[n_results] <- "Vot_Podemos_eleccions_europees_2014"
+```
+
+## Dades polítiques
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+ Abstenció eleccions generals 2011 | `r round(results["Abstencio_eleccions_generals_2011",1],1)` | `r round(results["Abstencio_eleccions_generals_2011",2],1)`
+ |  |  
+ Abstenció eleccions locals 2011 | `r round(results["Abstencio_eleccions_locals_2011",1],1)` | `r round(results["Abstencio_eleccions_locals_2011",2],1)`
+ Vot a CIU eleccions locals 2011 | `r round(results["Vot_CIU_eleccions_locals_2011",1],1)` | `r round(results["Vot_CIU_eleccions_locals_2011",2],1)` 
+ Vot a PSC eleccions locals 2011 | `r round(results["Vot_PSC_eleccions_locals_2011",1],1)` | `r round(results["Vot_PSC_eleccions_locals_2011",2],1)`
+ Vot a PP eleccions locals 2011 | `r round(results["Vot_PP_eleccions_locals_2011",1],1)` | `r round(results["Vot_PP_eleccions_locals_2011",2],1)`
+ Vot a ICV eleccions locals 2011 | `r round(results["Vot_ICV_eleccions_locals_2011",1],1)` | `r round(results["Vot_ICV_eleccions_locals_2011",2],1)`
+ Vot a ERC eleccions locals 2011 | `r round(results["Vot_ERC_eleccions_locals_2011",1],1)` | `r round(results["Vot_ERC_eleccions_locals_2011",2],1)`
+ |  |  
+ Vot a CIU eleccions europees 2014 | `r round(results["Vot_CIU_eleccions_europees_2014",1],1)` | `r round(results["Vot_CIU_eleccions_europees_2014",2],1)` 
+ Vot a PSC eleccions europees 2014 | `r round(results["Vot_PSC_eleccions_europees_2014",1],1)` | `r round(results["Vot_PSC_eleccions_europees_2014",2],1)`
+ Vot a PP eleccions europees 2014 | `r round(results["Vot_PP_eleccions_europees_2014",1],1)` | `r round(results["Vot_PP_eleccions_europees_2014",2],1)`
+ Vot a ICV eleccions europees 2014 | `r round(results["Vot_ICV_eleccions_europees_2014",1],1)` | `r round(results["Vot_ICV_eleccions_europees_2014",2],1)`
+ Vot a ERC eleccions europees 2014 | `r round(results["Vot_ERC_eleccions_europees_2014",1],1)` | `r round(results["Vot_ERC_eleccions_europees_2014",2],1)`
+ Vot a Podemos eleccions europees 2014 | `r round(results["Vot_Podemos_eleccions_europees_2014",1],1)` | `r round(results["Vot_Podemos_eleccions_europees_2014",2],1)`
+  |  |  
+
+
+```{r SOCIOECONOMIC_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$total_aturats, na.rm = T)*1.38)/(sum(barris$poblacio, na.rm = T)*0.51)
+results[n_results,2] <- 100*(sum(ciutat$total_aturats, na.rm = T)*1.38)/(sum(ciutat$poblacio, na.rm = T)*0.51)
+rownames(results)[n_results] <- "Atur_estimacio"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum(barris$rfbc2012*barris$llars/sum(barris$llars, na.rm = T), na.rm = T)
+results[n_results,2] <- 100
+rownames(results)[n_results] <- "Renda_familiar_bruta_disponible"
+```
+ 
+## Dades socio-econòmiques
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Atur (estimació)[^1] | `r round(results["Atur_estimacio",1],1)` | `r round(results["Atur_estimacio",2],1)`
+Renda familiar bruta disponible[^2] | `r round(results["Renda_familiar_bruta_disponible",1],1)` | `r results["Renda_familiar_bruta_disponible",2]`
+  |  |  
+  
+[^1]: Disposem a nivell de barri de dades sobre la població i sobre el nombre d'aturats registrats.
+Per calcular la taxa d'atur cal saber la taxa d'activitat (no disponible per barris) i el nombre d'aturats real (més alt que els registrats).
+Per tant, cal fer una estimació aproximada. Usant com a referència dades de la EPA del 4rt trimestre de 2013, hem multiplicat la població
+total per 0.51 per estimar la població activa i hem multiplicat l'atur registrat per 1.38 per estimar la població aturada.
+                                                                                                              
+[^2]: La renda familiar bruta disponible per barris és un índex en base a 100 que calcula el servei d'estadística de l'Ajuntament.
+
+
+```{r HOUSING_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$preum2_2013*barris$llars), na.rm = T)/sum(barris$llars, na.rm = T)
+results[n_results,2] <- sum((ciutat$preum2_2013*ciutat$llars), na.rm = T)/sum(ciutat$llars, na.rm = T)
+rownames(results)[n_results] <- "Preu_metre_quadrat_compra_2013"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$preulloguerm2_2011*barris$llars), na.rm = T)/sum(barris$llars, na.rm = T)
+results[n_results,2] <- sum((ciutat$preulloguerm2_2011*ciutat$llars), na.rm = T)/sum(ciutat$llars, na.rm = T)
+rownames(results)[n_results] <- "Preu_metre_quadrat_lloguer_2011"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$persones_per_llar*barris$llars), na.rm = T)/sum(barris$llars, na.rm = T)
+results[n_results,2] <- sum((ciutat$persones_per_llar*ciutat$llars), na.rm = T)/sum(ciutat$llars, na.rm = T)
+rownames(results)[n_results] <- "Persones_per_llar"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$densitat*barris$superficies), na.rm = T)/sum(barris$superficies, na.rm = T)
+results[n_results,2] <- sum((ciutat$densitat*ciutat$superficies), na.rm = T)/sum(ciutat$superficies, na.rm = T)
+rownames(results)[n_results] <- "Densitat_habitants_hectarea"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$propi_compra_pagat, na.rm = T)/sum(barris$llars, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$propi_compra_pagat, na.rm = T)/sum(ciutat$llars, na.rm = T))
+rownames(results)[n_results] <- "Llars_amb_titularitat"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$llogat, na.rm = T)/sum(barris$llars, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$llogat, na.rm = T)/sum(ciutat$llars, na.rm = T))
+rownames(results)[n_results] <- "Llars_de_lloguer"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$propi_compra_hipoteca, na.rm = T)/sum(barris$llars, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$propi_compra_hipoteca, na.rm = T)/sum(ciutat$llars, na.rm = T))
+rownames(results)[n_results] <- "Llars_comprades_hipotecades"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$sense_calefaccio, na.rm = T)/sum(barris$llars, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$sense_calefaccio, na.rm = T)/sum(ciutat$llars, na.rm = T))
+rownames(results)[n_results] <- "Llars_sense_calefaccio"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$sense_internet, na.rm = T)/sum(barris$llars, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$sense_internet, na.rm = T)/sum(ciutat$llars, na.rm = T))
+rownames(results)[n_results] <- "Llars_sense_internet"
+```
+ 
+## Habitatge
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Preu metre quadrat compra 2013 | `r round(results["Preu_metre_quadrat_compra_2013",1],0)` | `r round(results["Preu_metre_quadrat_compra_2013",2],0)`
+Preu metre quadrat lloguer 2011 | `r round(results["Preu_metre_quadrat_lloguer_2011",1],1)` | `r round(results["Preu_metre_quadrat_lloguer_2011",2],1)`
+  |  |  
+Persones per llar | `r round(results["Persones_per_llar",1],1)` | `r round(results["Persones_per_llar",2],1)`
+Densitat (habitants/hectàrea) | `r round(results["Densitat_habitants_hectarea",1],1)` | `r round(results["Densitat_habitants_hectarea",2],1)`
+  |  |  
+Llars comprades i pagades (%) | `r round(results["Llars_amb_titularitat",1],1)` | `r round(results["Llars_amb_titularitat",2],1)`
+Llars de lloguer (%) | `r round(results["Llars_de_lloguer",1],1)` | `r round(results["Llars_de_lloguer",2],1)`
+Llars comprades hipotecades[^3] (%) | `r round(results["Llars_comprades_hipotecades",1],1)` | `r round(results["Llars_comprades_hipotecades",2],1)`
+  |  |  
+Llars sense calefacció (%) | `r round(results["Llars_sense_calefaccio",1],1)` | `r round(results["Llars_sense_calefaccio",2],1)`
+Llars sense internet[^4] (%) | `r round(results["Llars_sense_internet",1],1)` | `r round(results["Llars_sense_internet",2],1)`
+  |  |  
+
+[^3]: El percentatge de llars amb diferent tipus de tinença no sumen 100 perquè hi ha altres tipus (ex.: 'herència', 'cedides', ...) no recollits en aquesta taula.
+
+[^4]: Les dades sobre percentatges de llars amb manques (calefacció, internet) poden contenir errors perquè sovint hi ha sobre-estimació del nombre de llars (denominador), disminuint llavors el percentatge real.
+
+
+```{r POPULATION_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- sum(barris$poblacio, na.rm = T)
+results[n_results,2] <- sum(ciutat$poblacio, na.rm = T)
+rownames(results)[n_results] <- "Poblacio_2013"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$catalunya, na.rm = T)/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$catalunya, na.rm = T)/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Nascuts_Catalunya_2013"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*((sum(barris$espanya, na.rm = T)-sum(barris$catalunya, na.rm = T))/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*((sum(ciutat$espanya, na.rm = T)-sum(ciutat$catalunya, na.rm = T))/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Nascuts_Espanya_fora_Catalunya_2013"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$estranger, na.rm = T)/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$estranger, na.rm = T)/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Nascuts_extranger_2013"
+```
+
+## Població
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Població 2013 | `r round(results["Poblacio_2013",1],1)` | `r round(results["Poblacio_2013",2],1)`
+Nascuts a Catalunya (%) | `r round(results["Nascuts_Catalunya_2013",1],1)` | `r round(results["Nascuts_Catalunya_2013",2],1)`
+Nascuts a Espanya fora de Catalunya (%) | `r round(results["Nascuts_Espanya_fora_Catalunya_2013",1],1)` | `r round(results["Nascuts_Espanya_fora_Catalunya_2013",2],1)`
+Nascuts a l'extranger[^5] (%) | `r round(results["Nascuts_extranger_2013",1],1)` | `r round(results["Nascuts_extranger_2013",2],1)`
+  |  |  
+
+[^5]: Els percentatges no sumen 100 exactament per diferències entre les fonts. Són estimacions aproximades.
+
+
+```{r SOCIODEMOGRAPHIC_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$taxa_natalitat_2014*barris$poblacio/1000), na.rm = T)/(sum(barris$poblacio, na.rm = T)/1000)
+results[n_results,2] <- sum((ciutat$taxa_natalitat_2014*ciutat$poblacio/1000), na.rm = T)/(sum(ciutat$poblacio, na.rm = T)/1000)
+rownames(results)[n_results] <- "Taxa_natalitat_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$taxa_mortalitat_2014*barris$poblacio/1000), na.rm = T)/(sum(barris$poblacio, na.rm = T)/1000)
+results[n_results,2] <- sum((ciutat$taxa_mortalitat_2014*ciutat$poblacio/1000), na.rm = T)/(sum(ciutat$poblacio, na.rm = T)/1000)
+rownames(results)[n_results] <- "Taxa_mortalitat_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$taxa_immigracio_2014*barris$poblacio/1000), na.rm = T)/(sum(barris$poblacio, na.rm = T)/1000)
+results[n_results,2] <- sum((ciutat$taxa_immigracio_2014*ciutat$poblacio/1000), na.rm = T)/(sum(ciutat$poblacio, na.rm = T)/1000)
+rownames(results)[n_results] <- "Taxa_bruta_immigracio_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum((barris$taxa_emigracio_2014*barris$poblacio/1000), na.rm = T)/(sum(barris$poblacio, na.rm = T)/1000)
+results[n_results,2] <- sum((ciutat$taxa_emigracio_2014*ciutat$poblacio/1000), na.rm = T)/(sum(ciutat$poblacio, na.rm = T)/1000)
+rownames(results)[n_results] <- "Taxa_bruta_emigracio_2014"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum(barris$dependencia_dem*barris$poblacio, na.rm = T)/sum(barris$poblacio, na.rm = T)
+results[n_results,2] <- sum(ciutat$dependencia_dem*ciutat$poblacio, na.rm = T)/sum(ciutat$poblacio, na.rm = T)
+rownames(results)[n_results] <- "Index_dependencia_demografica"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$e0_14_anys, na.rm = T)/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$e0_14_anys, na.rm = T)/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Menors_14_anys"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$e65anys_i_mes, na.rm = T)/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$e65anys_i_mes, na.rm = T)/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Majors_65_anys"
+```
+
+## Dades socio-demogràfiques
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Taxa de natalitat 2014 | `r round(results["Taxa_natalitat_2014",1],1)` | `r round(results["Taxa_natalitat_2014",2],1)`
+Taxa de mortalitat 2014 | `r round(results["Taxa_mortalitat_2014",1],1)` | `r round(results["Taxa_mortalitat_2014",2],1)`
+Taxa bruta d'immigració 2014 | `r round(results["Taxa_bruta_immigracio_2014",1],1)` | `r round(results["Taxa_bruta_immigracio_2014",2],1)`
+Taxa bruta d'emigració 2014[^6] | `r round(results["Taxa_bruta_emigracio_2014",1],1)` | `r round(results["Taxa_bruta_emigracio_2014",2],1)`
+ |  |  
+Índex de dependència demogràfica[^7] | `r round(results["Index_dependencia_demografica",1],1)` | `r round(results["Index_dependencia_demografica",2],1)`
+Menors de 14 anys (%) | `r round(results["Menors_14_anys",1],1)` | `r round(results["Menors_14_anys",2],1)`
+Majors de 65 anys (%) | `r round(results["Majors_65_anys",1],1)` | `r round(results["Majors_65_anys",2],1)`
+ |  |  
+
+
+[^6]: Taxes per cada 1000 habitants.
+
+[^7]: Calculat pel servei d'Estadística de l'Ajuntament en base a la seguent fórmula: (Població 65 i més / població de 16 a 64) x100
+
+
+```{r EDUCATIONAL_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- 100*((sum(barris$sense_estudis, na.rm = T)+sum(barris$primaris, na.rm = T))/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*((sum(ciutat$sense_estudis, na.rm = T)+sum(ciutat$primaris, na.rm = T))/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Estudis_primaris"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*((sum(barris$second_inferior, na.rm = T)+sum(barris$second_superior, na.rm = T))/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*((sum(ciutat$second_inferior, na.rm = T)+sum(ciutat$second_superior, na.rm = T))/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Estudis_secundaris"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*(sum(barris$universitaris, na.rm = T)/sum(barris$poblacio, na.rm = T))
+results[n_results,2] <- 100*(sum(ciutat$universitaris, na.rm = T)/sum(ciutat$poblacio, na.rm = T))
+rownames(results)[n_results] <- "Estudis_universitaris"
+```
+
+## Nivell educatiu
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Estudis primaris (%) | `r round(results["Estudis_primaris",1],1)` | `r round(results["Estudis_primaris",2],1)`
+Estudis secundaris (%) | `r round(results["Estudis_secundaris",1],1)` | `r round(results["Estudis_secundaris",2],1)`
+Estudis universitaris (%) | `r round(results["Estudis_universitaris",1],1)` | `r round(results["Estudis_universitaris",2],1)`
+ |  |  
+
+Nota: Moltes estadístiques oficials es calculen en base a enquestes que no són representatives, sovint ni tant sols a nivell de districte. Per exemple, la taxa d atur, que és el percentatge d'aturats sobre la població activa, no es pot estimar a nivell de barri perquè la població activa es calcula en base a la EPA, que només és representativa a nivell de ciutat. En aquestes circunstàncies només es pot fer una aproximació en base al nombre d'aturats i el nombre de persones en edat de treballar. Un altre cas similar és la taxa de risc de pobresa, que es calcula en base a l'enquesta de condicions de vida de tota la ciutat.
+
+```{r INTERVIEW_DATA, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,1] <- 
+results[n_results,2] <- 
+rownames(results)[n_results] <- ""
+
+```
+
+## Dades subjectives recollides a través de l'enquesta de barris (a 28 de gener del 2015)
+
+ **...** | **al `r analyzing`** | **a la ciutat**
+------------- | ------------- | -------------
+ |  |  
+Variable A | `r round(results["",1],1)` | `r round(results["",2],1)`
+ |  |  
+
+
+
+### Versió de R i dels diferents paquets que han sigut utilitzats
+```{r sessionInfo, include=F, echo=F, results="hide"}:
+sessionInfo()
+```
