@@ -10,12 +10,12 @@ This script takes relevant information from the Barcelona Database. It has been 
 
 The R code *chunks* could be inserted in the middle of the text (e.g.: I counted `r 1 + 1` red trucks on the highway) or as block of code: 
 
-\`\`\` {r}
-# quick summary and plot
-library(ggplot2)
-summary(cars)
-qplot(speed, dis, data=cars) + geom_smooth()
-\`\`\`
+    ``` {r}
+    # quick summary and plot
+    library(ggplot2)
+    summary(cars)
+    qplot(speed, dis, data=cars) + geom_smooth()
+    ```
 For more information on the combination of R code and the very simple Markdown language, you must also visit the [RMarkdown website](https://github.com/rstudio/rmarkdown#readme).
 
 ## Contact
