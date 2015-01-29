@@ -19,13 +19,9 @@ options(digits = 4)
 
 ```{r obtaining_data, echo=F, results="hide"}
 # Obtaining and loading the dataset
-download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/info_per_barris/info_per_barris_data.csv", 
-<<<<<<< HEAD
+download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/info_per_barris/info_per_barris_data.csv",
               destfile="info_per_barris_data.csv", method="curl") # install 'curl' in WINDOWS systems (http://curl.haxx.se/download.html)
                                                                   # and install it OR change the method to 'wget' in LINUX systems.
-=======
-              destfile="info_per_barris_data.csv")
->>>>>>> d435b14f40d692928ac0a25f52687ba801853510
 ciutat <- read.csv("info_per_barris_data.csv", header = T, sep = ";", dec = ".", na.strings=".")
 file.remove("info_per_barris_data.csv")
 ```
