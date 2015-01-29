@@ -1,5 +1,5 @@
 ---
-title: "Perfil de barris o districte"
+title: "Perfil de barri o districte"
 author: "Grup d'Anàlisi de Dades"
 date: "31/01/2015"
 output:
@@ -63,7 +63,7 @@ colnames(results) <- c("barris","ciutat")
 n_results <- 0
 ```
 
-# `r toupper(analyzing)` `r toupper(name_analyzed)`
+# `r toupper(analyzing)` de '`r toupper(name_analyzed)`'
 
 ```{r POLITICAL_DATA, echo=F, results="hide"}
 n_results <- n_results + 1
@@ -162,26 +162,40 @@ results[n_results,2] <- 100*(sum(ciutat$total_aturats, na.rm = T)*1.38)/(sum(ciu
 rownames(results)[n_results] <- "Atur_estimacio"
 
 n_results <- n_results + 1
+results[n_results,1] <- sum(barris$rfbc2008*barris$llars/sum(barris$llars, na.rm = T), na.rm = T)
+results[n_results,2] <- 100
+rownames(results)[n_results] <- "Renda_familiar_bruta_disponible_2008"
+
+n_results <- n_results + 1
 results[n_results,1] <- sum(barris$rfbc2012*barris$llars/sum(barris$llars, na.rm = T), na.rm = T)
 results[n_results,2] <- 100
-rownames(results)[n_results] <- "Renda_familiar_bruta_disponible"
+rownames(results)[n_results] <- "Renda_familiar_bruta_disponible_2012"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum(barris$rfbc2014*barris$llars/sum(barris$llars, na.rm = T), na.rm = T)
+results[n_results,2] <- 100
+rownames(results)[n_results] <- "Renda_familiar_bruta_disponible_2014"
 ```
  
 ## Dades socio-econòmiques
 
+
  **...** | **al `r analyzing`** | **a la ciutat**
 ------------- | ------------- | -------------
  |  |  
-Atur (estimació)[^1] | `r round(results["Atur_estimacio",1],1)` | `r round(results["Atur_estimacio",2],1)`
-Renda familiar bruta disponible[^2] | `r round(results["Renda_familiar_bruta_disponible",1],1)` | `r results["Renda_familiar_bruta_disponible",2]`
-  |  |  
+Atur (estimació)[^1] | `r round(results["Atur_estimacio",1],1)` | `r round(results["Atur_estimacio",2],1)` 
+ |  |
+Renda familiar 2008 | `r round(results["Renda_familiar_bruta_disponible_2008",1],1)` | `r results["Renda_familiar_bruta_disponible_2008",2]` 
+Renda familiar 2012 | `r round(results["Renda_familiar_bruta_disponible_2012",1],1)` | `r results["Renda_familiar_bruta_disponible_2012",2]` 
+Renda familiar[^2] 2014 | `r round(results["Renda_familiar_bruta_disponible_2014",1],1)` | `r results["Renda_familiar_bruta_disponible_2014",2]` 
+ |  |  
   
 [^1]: Disposem a nivell de barri de dades sobre la població i sobre el nombre d'aturats registrats.
 Per calcular la taxa d'atur cal saber la taxa d'activitat (no disponible per barris) i el nombre d'aturats real (més alt que els registrats).
 Per tant, cal fer una estimació aproximada. Usant com a referència dades de la EPA del 4rt trimestre de 2013, hem multiplicat la població
 total per 0.51 per estimar la població activa i hem multiplicat l'atur registrat per 1.38 per estimar la població aturada.
                                                                                                               
-[^2]: La renda familiar bruta disponible per barris és un índex en base a 100 que calcula el servei d'estadística de l'Ajuntament.
+[^2]: Es tracta de la 'renda familiar bruta disponible', un índex en base a 100 que calcula el servei d'estadística de l'Ajuntament.
 
 
 ```{r HOUSING_DATA, echo=F, results="hide"}
@@ -282,13 +296,13 @@ rownames(results)[n_results] <- "Nascuts_extranger_2013"
  **...** | **al `r analyzing`** | **a la ciutat**
 ------------- | ------------- | -------------
  |  |  
-Població 2013 | `r round(results["Poblacio_2013",1],1)` | `r round(results["Poblacio_2013",2],1)`
+Població a Barcelona el 2013 (en milers) | `r round(results["Poblacio_2013",1]/1000,0)` | `r round(results["Poblacio_2013",2]/1000,0)`
 Nascuts a Catalunya (%) | `r round(results["Nascuts_Catalunya_2013",1],1)` | `r round(results["Nascuts_Catalunya_2013",2],1)`
 Nascuts a Espanya fora de Catalunya (%) | `r round(results["Nascuts_Espanya_fora_Catalunya_2013",1],1)` | `r round(results["Nascuts_Espanya_fora_Catalunya_2013",2],1)`
 Nascuts a l'extranger[^5] (%) | `r round(results["Nascuts_extranger_2013",1],1)` | `r round(results["Nascuts_extranger_2013",2],1)`
   |  |  
 
-[^5]: Els percentatges no sumen 100 exactament per diferències entre les fonts. Són estimacions aproximades.
+[^5]: Els percentatges no sumen exactament 100 per diferències entre les fonts. Són estimacions aproximades.
 
 
 ```{r SOCIODEMOGRAPHIC_DATA, echo=F, results="hide"}
@@ -378,6 +392,8 @@ Estudis universitaris (%) | `r round(results["Estudis_universitaris",1],1)` | `r
 
 Nota: Moltes estadístiques oficials es calculen en base a enquestes que no són representatives, sovint ni tant sols a nivell de districte. Per exemple, la taxa d atur, que és el percentatge d'aturats sobre la població activa, no es pot estimar a nivell de barri perquè la població activa es calcula en base a la EPA, que només és representativa a nivell de ciutat. En aquestes circunstàncies només es pot fer una aproximació en base al nombre d'aturats i el nombre de persones en edat de treballar. Un altre cas similar és la taxa de risc de pobresa, que es calcula en base a l'enquesta de condicions de vida de tota la ciutat.
 
+
+
 ```{r INTERVIEW_DATA, echo=F, results="hide"}
 n_results <- n_results + 1
 results[n_results,1] <- 
@@ -394,9 +410,3 @@ rownames(results)[n_results] <- ""
 Variable A | `r round(results["",1],1)` | `r round(results["",2],1)`
  |  |  
 
-
-
-### Versió de R i dels diferents paquets que han sigut utilitzats
-```{r sessionInfo, include=F, echo=F, results="hide"}:
-sessionInfo()
-```
