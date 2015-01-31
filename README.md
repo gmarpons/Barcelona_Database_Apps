@@ -18,6 +18,20 @@ The R code *chunks* could be inserted in the middle of the text (e.g.: I counted
     ```
 For more information on the combination of R code and the very simple Markdown language, you must also visit the [RMarkdown website](https://github.com/rstudio/rmarkdown#readme).
 
+## Tips for Emacs users
+
+It's possible to edit, weave, export from, and execute R code from RMarkdown files within Emacs. You need to install the following software packages in your system:
+
+* GNU R (version >= 3.1.2, [Debian packages available](http://cran.es.r-project.org/bin/linux/debian/))
+* [Pandoc](http://johnmacfarlane.net/pandoc/)
+
+You'll need Emacs version >= 24.4, and install the following packages:
+
+* [polymode](https://github.com/vspinu/polymode)
+* [ESS](http://ess.r-project.org/)
+
+Package [pandoc-mode](http://joostkremers.github.io/pandoc-mode/) can also be useful.
+
 ## Contact
 
 For more information on the scripts, suggestions (very welcome!) or any other thing, please contact us at analisi.guanyem@gmail.com.
