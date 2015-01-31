@@ -1,9 +1,12 @@
 ---
 title: "Perfil de barri o districte"
 author: "Grup d'Anàlisi de Dades"
-date: "31/01/2015"
 output:
   pdf_document:
+    includes:
+      in_header:   fitxes_dels_barris-header.tex
+      before_body: fitxes_dels_barris-prefix.tex
+      after_body:  fitxes_dels_barris-suffix.tex
     keep_tex:      true
 documentclass:     scrartcl
 classoption:
