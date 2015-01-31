@@ -4,7 +4,12 @@ author: "Grup d'Anàlisi de Dades"
 date: "31/01/2015"
 output:
   pdf_document:
-    keep_tex: true
+    keep_tex:      true
+documentclass:     scrartcl
+classoption:
+  paper:           a4
+  parskip:         half
+fontsize:          10pt
 ---
 
 ```{r initial_settings, include=F, echo=F, results="hide"}
