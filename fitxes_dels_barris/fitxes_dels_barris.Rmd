@@ -531,17 +531,18 @@ par(mfrow=c(2,2))
 barx <- barplot(c(results["enq1_dones",1],results["enq1_homes",1],results["enq1_altre_genere",1]), names.arg=c("Dona","Home.","Altres"), main="Identificació pròpia del gènere", sub="de l'Ajuntament al barri/districte)", xlab="genere (punts vermells per les dades", ylab="% de persones", ylim=c(0,55), cex.names=0.8)
 points (barx,c(results["enq1_dones",2],results["enq1_homes",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
 
-barx <- barplot(c(results["enq1_edats_.15",1],results["enq1_edats_15_24",1],results["enq1_edats_25_39",1],results["enq1_edats_40_64",1],results["enq1_edats_.64",1],results["enq1_edats_NA",1]), names.arg=c("<15","15-24","25-39","40-64",">64","NS/NC"), main="Edat de la mostra\n(+ població)", sub="l'edat de tot el barri/districte)", xlab="edats (punts vermells per indicar", ylab="% de persones", cex.names=0.8)
+barx <- barplot(c(results["enq1_edats_.15",1],results["enq1_edats_15_24",1],results["enq1_edats_25_39",1],results["enq1_edats_40_64",1],results["enq1_edats_.64",1],results["enq1_edats_NA",1]), names.arg=c("<15","15-24","25-39","40-64",">64","NS/NC"), main="Edat de la mostra (+ població)", sub="l'edat de tot el barri/districte)", xlab="edats (punts vermells per indicar", ylab="% de persones", cex.names=0.8)
 points (barx,c(results["enq1_edats_.15",2],results["enq1_edats_15_24",2],results["enq1_edats_25_39",2],results["enq1_edats_40_64",2],results["enq1_edats_.64",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
 
-barx <- barplot(c(results["enq1_edu_prim",1],results["enq1_edu_secu",1],results["enq1_edu_univ",1],results["enq1_edu_NA",1]), names.arg=c("Prim.","Secun.","Univ.","NS/NC"), main="Estudis de la mostra\n(+ població)", sub="estudis de tot el barri/districte)", xlab="estudis cursats (punts vermells pels", ylab="% de persones", cex.names=0.8)
+barx <- barplot(c(results["enq1_edu_prim",1],results["enq1_edu_secu",1],results["enq1_edu_univ",1],results["enq1_edu_NA",1]), names.arg=c("Prim.","Secun.","Univ.","NS/NC"), main="Estudis cursats per la mostra (+ població)", sub="estudis de tot el barri/districte)", xlab="estudis cursats (punts vermells pels", ylab="% de persones", cex.names=0.8)
 points (barx,c(results["enq1_edu_prim",2],results["enq1_edu_secu",2],results["enq1_edu_univ",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
 
 barx <- barplot(c(results["enq1_associ_si",1],results["enq1_associ_no",1],results["enq1_associ_NA",1]), names.arg=c("Sí","No","NS/NC"), main="Participació en teixit associatiu", sub="la resta de la població del barri/districte)", xlab="participació (sense comparacions possibles amb", ylab="% de persones", cex.names=0.8)
 
 ```
 
-## Opinions sobre la situació al seu barri
+
+## Opinions sobre la situació al barri
 
 ```{r HOUSING_OPINION_DATA, echo=F, results="hide"}
 
@@ -608,6 +609,7 @@ rownames(results)[n_results] <- "enq1_vivenda_prob_buits"
 
 ```
 
+
 ```{r HOUSING_OPINION_PLOTS, echo=F, results="hide"}
 
 par(mfrow=c(1,2))
@@ -615,10 +617,27 @@ par(mfrow=c(1,2))
 barx <- barplot(c(results["enq1_vivenda_problem_no",1],results["enq1_vivenda_problem_alguns",1],results["enq1_vivenda_problem_greus",1],results["enq1_vivenda_problem_NA",1]), names.arg=c("No\nn'hi ha","Alguns\nproblemes","Problemes\ngreus","NS/NC"), main="Hi ha problemes d'accés a l'habitatge?", sub="per anàlisi conjunt de tots els barris de la ciutat)", xlab="creuen que hi ha problemes (punts verds", ylab="% de persones", cex.names=0.8)
 points (barx,c(results["enq1_vivenda_problem_no",2],results["enq1_vivenda_problem_alguns",2],results["enq1_vivenda_problem_greus",2],results["enq1_vivenda_problem_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
 
-
-barx <- barplot(c(results["enq1_vivenda_prob_preu",1],results["enq1_vivenda_prob_oferta",1],results["enq1_vivenda_prob_oferta_pub",1],results["enq1_vivenda_prob_credit",1],results["enq1_vivenda_prob_condicions",1],results["enq1_vivenda_prob_desnona",1],results["enq1_vivenda_prob_buits",1]), main="Quin és el principal problema?", sub="per anàlisi conjunt de tots els barris de la ciutat)", xlab="índex de preocupació (punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,30))
-text(0.1,barx[,1]+0.25, c("Qualitat-preu","Manca d'oferta","Manca d'oferta pública","Accés al crèdit","Condicions dels habitatges","Desnonaments","Excés pisos buits"), pos=4)
+barx <- barplot(c(results["enq1_vivenda_prob_preu",1],results["enq1_vivenda_prob_oferta",1],results["enq1_vivenda_prob_oferta_pub",1],results["enq1_vivenda_prob_credit",1],results["enq1_vivenda_prob_condicions",1],results["enq1_vivenda_prob_desnona",1],results["enq1_vivenda_prob_buits",1]), main="Quin és el principal problema?", sub="és anàlisi conjunt de tots els barris de la ciutat)", xlab="índex de preocupació (punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,30))
+text(0.2,barx[,1]+0.25, c("Qualitat-preu","Manca d'oferta","Manca d'oferta pública","Accés al crèdit","Condicions dels habitatges","Desnonaments","Excés pisos buits"), pos=4)
 points (y=barx,c(results["enq1_vivenda_prob_preu",2],results["enq1_vivenda_prob_oferta",2],results["enq1_vivenda_prob_oferta_pub",2],results["enq1_vivenda_prob_credit",2],results["enq1_vivenda_prob_condicions",2],results["enq1_vivenda_prob_desnona",2],results["enq1_vivenda_prob_buits",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
 
 ```
+
+
+```{r HOUSING_OPINION_MORE_PROBLEMS, echo=F, results="hide"}
+n_results <- n_results + 1
+results[n_results,2] <-  NA
+rownames(results)[n_results] <- "enq1_vivenda_prob_altres"
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_vivenda_prob_altres"]!="" & !is.na(barris[i,"enq1_vivenda_prob_altres"])) {
+    results[n_results,1] <- paste(results[n_results,1],barris[i,"enq1_vivenda_prob_altres"], sep=" / ")
+  }
+}
+```
+
+Altres problemes del barri relacionats amb la vivenda i enumerats durant les enquestes (sense filtratge previ): *`r results["enq1_vivenda_prob_altres",1]`*.
+
+
+
+
 
