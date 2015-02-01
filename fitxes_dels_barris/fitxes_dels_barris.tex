@@ -1,0 +1,317 @@
+\documentclass[]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% Set line spacing
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx}
+% Redefine \includegraphics so that, unless explicit options are
+% given, the image width will not exceed the width of the page.
+% Images get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\def\ScaleIfNeeded{%
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+\let\Oldincludegraphics\includegraphics
+{%
+ \catcode`\@=11\relax%
+ \gdef\includegraphics{\@ifnextchar[{\Oldincludegraphics}{\Oldincludegraphics[width=\ScaleIfNeeded]}}%
+}%
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Grup d'Anàlisi de Dades},
+            pdftitle={Perfil de barri o districte},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+\setlength{\droptitle}{-2em}
+  \title{Perfil de barri o districte}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Grup d'Anàlisi de Dades}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{31/01/2015}
+
+
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{DISTRICTE de `SANT MARTÍ'}\label{districte-de-sant-marti}
+
+\subsection{Dades polítiques}\label{dades-politiques}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule\addlinespace
+\textbf{\ldots{}} & \textbf{al districte} & \textbf{a la ciutat}
+\\\addlinespace
+\midrule\endhead
+\\\addlinespace
+Abstenció eleccions generals 2011 & 32.3 & 31.9
+\\\addlinespace
+\\\addlinespace
+Abstenció eleccions locals 2011 & 48 & 47
+\\\addlinespace
+Vot a CIU eleccions locals 2011 & 21.7 & 28.2
+\\\addlinespace
+Vot a PSC eleccions locals 2011 & 25.7 & 21.8
+\\\addlinespace
+Vot a PP eleccions locals 2011 & 16.6 & 16.9
+\\\addlinespace
+Vot a ICV eleccions locals 2011 & 11.5 & 10.2
+\\\addlinespace
+Vot a ERC eleccions locals 2011 & 5.8 & 5.5
+\\\addlinespace
+\\\addlinespace
+Vot a CIU eleccions europees 2014 & 14.9 & 20.7
+\\\addlinespace
+Vot a PSC eleccions europees 2014 & 14.4 & 12.1
+\\\addlinespace
+Vot a PP eleccions europees 2014 & 10.8 & 11.9
+\\\addlinespace
+Vot a ICV eleccions europees 2014 & 14.4 & 12.5
+\\\addlinespace
+Vot a ERC eleccions europees 2014 & 22.9 & 21.6
+\\\addlinespace
+Vot a Podemos eleccions europees 2014 & 5.6 & 4.7
+\\\addlinespace
+\\\addlinespace
+\bottomrule
+\end{longtable}
+
+\subsection{Dades socio-econòmiques}\label{dades-socio-economiques}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule\addlinespace
+\textbf{\ldots{}} & \textbf{al districte} & \textbf{a la ciutat}
+\\\addlinespace
+\midrule\endhead
+\\\addlinespace
+Atur (estimació)\footnote{Disposem a nivell de barri de dades sobre la
+  població i sobre el nombre d'aturats registrats. Per calcular la taxa
+  d'atur cal saber la taxa d'activitat (no disponible per barris) i el
+  nombre d'aturats real (més alt que els registrats). Per tant, cal fer
+  una estimació aproximada. Usant com a referència dades de la EPA del
+  4rt trimestre de 2013, hem multiplicat la població total per 0.51 per
+  estimar la població activa i hem multiplicat l'atur registrat per 1.38
+  per estimar la població aturada.} & 18.8 & 16.9
+\\\addlinespace
+\\\addlinespace
+Renda familiar\footnote{Es tracta de la `renda familiar bruta
+  disponible', un índex en base a 100 que calcula el servei
+  d'estadística de l'Ajuntament.} 2014 & 81.2 & 100
+\\\addlinespace
+\\\addlinespace
+\bottomrule
+\end{longtable}
+
+\subsection{Habitatge}\label{habitatge}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule\addlinespace
+\textbf{\ldots{}} & \textbf{al districte} & \textbf{a la ciutat}
+\\\addlinespace
+\midrule\endhead
+\\\addlinespace
+Preu metre quadrat compra 2013 & 2097 & 2454
+\\\addlinespace
+Preu metre quadrat lloguer 2011 & 11.7 & 11.9
+\\\addlinespace
+\\\addlinespace
+Persones per llar & 2.5 & 2.4
+\\\addlinespace
+Densitat (habitants/hectàrea) & 221.3 & 157.8
+\\\addlinespace
+\\\addlinespace
+Llars comprades i pagades (\%) & 41 & 37.6
+\\\addlinespace
+Llars de lloguer (\%) & 22 & 30.1
+\\\addlinespace
+Llars comprades hipotecades\footnote{El percentatge de llars amb
+  diferent tipus de tinença no sumen 100 perquè hi ha altres tipus (ex.:
+  `herència', `cedides', \ldots{}) no recollits en aquesta taula.} (\%)
+& 28.5 & 22.5
+\\\addlinespace
+\\\addlinespace
+Llars sense calefacció (\%) & 10.7 & 10.7
+\\\addlinespace
+Llars sense internet\footnote{Les dades sobre percentatges de llars amb
+  manques (calefacció, internet) poden contenir errors perquè sovint hi
+  ha sobre-estimació del nombre de llars (denominador), disminuint
+  llavors el percentatge real.} (\%) & 34.8 & 34.6
+\\\addlinespace
+\\\addlinespace
+\bottomrule
+\end{longtable}
+
+\subsection{Població}\label{poblacio}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule\addlinespace
+\textbf{\ldots{}} & \textbf{al districte} & \textbf{a la ciutat}
+\\\addlinespace
+\midrule\endhead
+\\\addlinespace
+Població a Barcelona el 2013 (en milers) & 233 & 1612
+\\\addlinespace
+Nascuts a Catalunya (\%) & 59.3 & 59.2
+\\\addlinespace
+Nascuts a Espanya fora de Catalunya (\%) & 24.7 & 23.3
+\\\addlinespace
+Nascuts a l'extranger\footnote{Els percentatges no sumen exactament 100
+  per diferències entre les fonts. Són estimacions aproximades.} (\%) &
+19.8 & 21.8
+\\\addlinespace
+\\\addlinespace
+\bottomrule
+\end{longtable}
+
+\subsection{Dades socio-demogràfiques}\label{dades-socio-demografiques}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule\addlinespace
+\textbf{\ldots{}} & \textbf{al districte} & \textbf{a la ciutat}
+\\\addlinespace
+\midrule\endhead
+\\\addlinespace
+Taxa de natalitat 2014 & 9 & 8.2
+\\\addlinespace
+Taxa de mortalitat 2014 & 8.1 & 9.2
+\\\addlinespace
+Taxa bruta d'immigració 2014 & 42.9 & 47.1
+\\\addlinespace
+Taxa bruta d'emigració 2014\footnote{Taxes per cada 1000 habitants.} &
+32.1 & 33.3
+\\\addlinespace
+\\\addlinespace
+Índex de dependència demogràfica\footnote{Calculat pel servei
+  d'Estadística de l'Ajuntament en base a la seguent fórmula: (Població
+  65 i més / població de 16 a 64) x100} & 52.1 & 53
+\\\addlinespace
+Menors de 14 anys (\%) & 13.3 & 12.4
+\\\addlinespace
+Majors de 65 anys (\%) & 0 & 0
+\\\addlinespace
+\\\addlinespace
+\bottomrule
+\end{longtable}
+
+\subsection{Nivell educatiu}\label{nivell-educatiu}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule\addlinespace
+\textbf{\ldots{}} & \textbf{al districte} & \textbf{a la ciutat}
+\\\addlinespace
+\midrule\endhead
+\\\addlinespace
+Estudis primaris (\%) & 25.2 & 22.6
+\\\addlinespace
+Estudis secundaris (\%) & 41.7 & 40.3
+\\\addlinespace
+Estudis universitaris (\%) & 19.3 & 23.9
+\\\addlinespace
+\\\addlinespace
+\bottomrule
+\end{longtable}
+
+Nota: Moltes estadístiques oficials es calculen en base a enquestes que
+no són representatives, sovint ni tant sols a nivell de districte. Per
+exemple, la taxa d atur, que és el percentatge d'aturats sobre la
+població activa, no es pot estimar a nivell de barri perquè la població
+activa es calcula en base a la EPA, que només és representativa a nivell
+de ciutat. En aquestes circunstàncies només es pot fer una aproximació
+en base al nombre d'aturats i el nombre de persones en edat de
+treballar. Un altre cas similar és la taxa de risc de pobresa, que es
+calcula en base a l'enquesta de condicions de vida de tota la ciutat.
+
+\newpage
+
+\section{\textbf{Dades subjectives}}\label{dades-subjectives}
+
+La informació que apareix a continuació a sigut recollida mitjançant
+enquestes fetes a través d'internet
+(\href{http://goo.gl/OfqwdC}{\url{http://goo.gl/OfqwdC}}). Tot i que
+l'enquesta segueix en funcionamenta, les dades que aquí es presentan van
+ser descarregades el 28 de gener del 2015. L'objectiu d'aquesta
+descàrrega inicial és la de poder aportar informacions que puguin ser
+d'utilitat pel diagnóstic dels barris. \textbf{És molt important ser
+conscients de que la informació que presentem no té cap significació
+estadística (i menys a nivell de barris)} que permeti fer cap tipus
+d'inferència.
+
+En pràcticament tots els casos, la mostra aconseguida no és prou gran. A
+més, aquesta mostra no és mai, com veurem a continuació, aleatòria. És
+per això que demanem NO pendre les informacions recollides en aquesta
+secció com a dades representatives del conjunt de la població del barri
+o districte, sinó més aviat com a opinions puntuals a títol personal.
+Per descomptat, aquests apunts sobre el conjunt de la mostra no li
+treuen gens d'importància a cadascuna de les valuoses opinions
+recollides i que també expliquen part de la realitat del barri o
+districte.
+
+\subsection{Enquestes al districte de `SANT MARTÍ'
+(mostra)}\label{enquestes-al-districte-de-sant-marti-mostra}
+
+La mostra consta de 108 enquestes realitzades des de 72 IPs diferents.
+Com es pot comprovar a continuació, el perfil de les persones
+enquestades no és representatiu del conjunt de la població, mostrant
+alguns biaixos importants:
+
+.
+
+\includegraphics{fitxes_dels_barris_files/figure-latex/INTERVIEW_PLOTS-1.pdf}
+
+\subsection{Opinions sobre la situació al seu
+barri}\label{opinions-sobre-la-situacio-al-seu-barri}
+
+\includegraphics{fitxes_dels_barris_files/figure-latex/HOUSING_OPINION_PLOTS-1.pdf}
+
+\end{document}

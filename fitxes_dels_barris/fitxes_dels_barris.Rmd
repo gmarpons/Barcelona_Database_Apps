@@ -13,11 +13,11 @@ if(!require("rmarkdown")) install.packages("rmarkdown", repos="http://cran.us.r-
 library(rmarkdown)
 if(!require("knitr")) install.packages("knitr", repos="http://cran.us.r-project.org")
 library(knitr)
-opts_chunk$set(fig.width=12, fig.height=4, warning=F, message=F)
+opts_chunk$set(fig.width=9, fig.height=6, warning=F, message=F)
 options(digits = 4)
 ```
 
-```{r obtaining_data, echo=F, results="hide"}
+```{r obtaining_data_1, echo=F, results="hide"}
 # Obtaining and loading the dataset
 download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/info_per_barris/info_per_barris_data.csv",
               destfile="info_per_barris_data.csv", method="curl") # install 'curl' in WINDOWS systems (http://curl.haxx.se/download.html)
@@ -25,6 +25,28 @@ download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Databa
 ciutat <- read.csv("info_per_barris_data.csv", header = T, sep = ";", dec = ".", na.strings=".")
 file.remove("info_per_barris_data.csv")
 ```
+
+```{r obtaining_data_2, echo=F, results="hide"}
+# Obtaining and loading the dataset FROM THE SURVEY!!!
+# ------------------------------------------------------
+download.file("https://raw.githubusercontent.com/AnalisiGuanyem/Barcelona_Database/master/enquesta/Survey_28_01_15_by_neighborhoods.csv",
+              destfile="Survey_28_01_15_by_neighborhoods.csv", method="curl") # install 'curl' in WINDOWS systems (http://curl.haxx.se/download.html)
+                                                                  # and install it OR change the method to 'wget' in LINUX systems.
+enquesta <- read.csv("Survey_28_01_15_by_neighborhoods.csv", header = T, sep = "\t", quote = "", dec = ".")
+file.remove("Survey_28_01_15_by_neighborhoods.csv")
+
+# Binding with previous table
+ciutat$barri_nom <- gsub("^ ", "", ciutat$barri_nom, perl=T)
+ciutat$barri_nom <- gsub(" $", "", ciutat$barri_nom, perl=T)
+ciutat$barri_nom <- toupper(ciutat$barri_nom)
+enquesta$enq1_barri <- gsub("^ ", "", enquesta$enq1_barri, perl=T)
+enquesta$enq1_barri <- gsub(" $", "", enquesta$enq1_barri, perl=T)
+enquesta$enq1_barri <- toupper(enquesta$enq1_barri)
+ciutat <- merge(ciutat, enquesta, by.x="barri_nom", by.y="enq1_barri", all.x=T, all.y=T)
+ciutat <- ciutat[-1,]
+ciutat <- ciutat[order(ciutat$barris, decreasing=F),]
+```
+
 
 ```{r choosing_options, echo=F, results="hide"}
 # Choosing the analyzed district/neighborhood
@@ -34,7 +56,7 @@ num_analyzed <- 10      # visit 'https://github.com/AnalisiGuanyem/Barcelona_Dat
 
 # Name of the  district/neighborhood (automatic):
 if (analyzing == "barri") {
-  name_analyzed <- ciutat[num_analyzed,3]
+  name_analyzed <- ciutat[num_analyzed,1]
 } else if (analyzing == "districte") {
   if (num_analyzed==1) { name_analyzed <- "Ciutat Vella" }
   if (num_analyzed==2) { name_analyzed <- "Eixample" }
@@ -48,7 +70,7 @@ if (analyzing == "barri") {
   if (num_analyzed==10) { name_analyzed <- "Sant Martí" }
   
   # Analyzed neighborhoods in case of choosing 'district'
-  num_analyzed <- which(ciutat[,1]==num_analyzed, arr.ind = T)
+  num_analyzed <- which(ciutat[,2]==num_analyzed, arr.ind = T)
   
 } else {
   quit("no")
@@ -184,12 +206,12 @@ rownames(results)[n_results] <- "Renda_familiar_bruta_disponible_2014"
 ------------- | ------------- | -------------
  |  |  
 Atur (estimació)[^1] | `r round(results["Atur_estimacio",1],1)` | `r round(results["Atur_estimacio",2],1)` 
- |  |
-Renda familiar 2008 | `r round(results["Renda_familiar_bruta_disponible_2008",1],1)` | `r results["Renda_familiar_bruta_disponible_2008",2]` 
-Renda familiar 2012 | `r round(results["Renda_familiar_bruta_disponible_2012",1],1)` | `r results["Renda_familiar_bruta_disponible_2012",2]` 
+ |  |  
 Renda familiar[^2] 2014 | `r round(results["Renda_familiar_bruta_disponible_2014",1],1)` | `r results["Renda_familiar_bruta_disponible_2014",2]` 
  |  |  
-  
+
+
+
 [^1]: Disposem a nivell de barri de dades sobre la població i sobre el nombre d'aturats registrats.
 Per calcular la taxa d'atur cal saber la taxa d'activitat (no disponible per barris) i el nombre d'aturats real (més alt que els registrats).
 Per tant, cal fer una estimació aproximada. Usant com a referència dades de la EPA del 4rt trimestre de 2013, hem multiplicat la població
@@ -392,21 +414,211 @@ Estudis universitaris (%) | `r round(results["Estudis_universitaris",1],1)` | `r
 
 Nota: Moltes estadístiques oficials es calculen en base a enquestes que no són representatives, sovint ni tant sols a nivell de districte. Per exemple, la taxa d atur, que és el percentatge d'aturats sobre la població activa, no es pot estimar a nivell de barri perquè la població activa es calcula en base a la EPA, que només és representativa a nivell de ciutat. En aquestes circunstàncies només es pot fer una aproximació en base al nombre d'aturats i el nombre de persones en edat de treballar. Un altre cas similar és la taxa de risc de pobresa, que es calcula en base a l'enquesta de condicions de vida de tota la ciutat.
 
+\newpage
 
+
+# **Dades subjectives** 
+
+La informació que apareix a continuació a sigut recollida mitjançant enquestes fetes a través d'internet ([http://goo.gl/OfqwdC](http://goo.gl/OfqwdC)). Tot i que l'enquesta segueix en funcionamenta, les dades que aquí es presentan van ser descarregades el 28 de gener del 2015. L'objectiu d'aquesta descàrrega inicial és la de poder aportar informacions que puguin ser d'utilitat pel diagnóstic dels barris. És molt important ser conscients de que **la informació que presentem no té cap significació estadística** (i menys a nivell de barris) **que permeti fer cap tipus d'inferència**. 
+
+En pràcticament tots els casos, la mostra aconseguida no és prou gran. A més, aquesta mostra no és mai, com veurem a continuació, aleatòria. És per això que demanem NO pendre les informacions recollides en aquesta secció com a dades representatives del conjunt de la població del barri o districte, sinó més aviat com a opinions puntuals a títol personal. Per descomptat, aquests apunts sobre el conjunt de la mostra no li treuen gens d'importància a cadascuna de les valuoses opinions recollides i que també expliquen part de la realitat del barri o districte.
 
 ```{r INTERVIEW_DATA, echo=F, results="hide"}
 n_results <- n_results + 1
-results[n_results,1] <- 
-results[n_results,2] <- 
-rownames(results)[n_results] <- ""
+results[n_results,1] <- sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_respostes"
+
+n_results <- n_results + 1
+results[n_results,1] <- sum(barris$enq1_ips_unicas, na.rm = T)
+results[n_results,2] <-  sum(ciutat$enq1_ips_unicas, na.rm = T)
+rownames(results)[n_results] <- "enq1_ips_unicas"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edats_.15, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(barris$e0_14_anys, na.rm = T)/sum(barris$poblacio, na.rm = T)
+rownames(results)[n_results] <- "enq1_edats_.15"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edats_15_24, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(barris$e15_24_anys, na.rm = T)/sum(barris$poblacio, na.rm = T)
+rownames(results)[n_results] <- "enq1_edats_15_24"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edats_25_39, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  (100*sum(barris$e25_64_anys, na.rm = T)/sum(barris$poblacio, na.rm = T))*407803/937401
+rownames(results)[n_results] <- "enq1_edats_25_39"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edats_40_64, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  (100*sum(barris$e25_64_anys, na.rm = T)/sum(barris$poblacio, na.rm = T))*529598/937401
+rownames(results)[n_results] <- "enq1_edats_40_64"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edats_.64, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(barris$e65.anys_i_mes, na.rm = T)/sum(barris$poblacio, na.rm = T)
+rownames(results)[n_results] <- "enq1_edats_.64"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edats_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  0
+rownames(results)[n_results] <- "enq1_edats_NA"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edu_prim, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  results["Estudis_primaris",1]
+rownames(results)[n_results] <- "enq1_edu_prim"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edu_secu, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  results["Estudis_secundaris",1]
+rownames(results)[n_results] <- "enq1_edu_secu"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edu_univ, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  results["Estudis_universitaris",1]
+rownames(results)[n_results] <- "enq1_edu_univ"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_edu_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  0
+rownames(results)[n_results] <- "enq1_edu_NA"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_dones, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(barris$dones, na.rm = T)/sum(barris$poblacio, na.rm = T)
+rownames(results)[n_results] <- "enq1_dones"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_homes, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(barris$homes, na.rm = T)/sum(barris$poblacio, na.rm = T)
+rownames(results)[n_results] <- "enq1_homes"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_altre_genere, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  0
+rownames(results)[n_results] <- "enq1_altre_genere"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_associ_si, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  NA
+rownames(results)[n_results] <- "enq1_associ_si"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_associ_no, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  NA
+rownames(results)[n_results] <- "enq1_associ_no"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_associ_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  NA
+rownames(results)[n_results] <- "enq1_associ_NA"
 
 ```
 
-## Dades subjectives recollides a través de l'enquesta de barris (a 28 de gener del 2015)
+## Enquestes al `r analyzing` de '`r toupper(name_analyzed)`' (mostra)
 
- **...** | **al `r analyzing`** | **a la ciutat**
-------------- | ------------- | -------------
- |  |  
-Variable A | `r round(results["",1],1)` | `r round(results["",2],1)`
- |  |  
+La mostra consta de `r round(results["enq1_respostes",1],0)` enquestes realitzades des de  `r round(results["enq1_ips_unicas",1],0)` IPs diferents. Com es pot comprovar a continuació, el perfil de les persones enquestades no és representatiu del conjunt de la població, mostrant alguns biaixos importants:
+
+.
+
+```{r INTERVIEW_PLOTS, echo=F, results="hide"}
+
+#par(oma=c(3,3,5,3))
+#par(mar=c(5,4,5,2) + 0.1) 
+par(mfrow=c(2,2))
+
+barx <- barplot(c(results["enq1_dones",1],results["enq1_homes",1],results["enq1_altre_genere",1]), names.arg=c("Dona","Home.","Altres"), main="Identificació pròpia del gènere", sub="de l'Ajuntament al barri/districte)", xlab="genere (punts vermells per les dades", ylab="% de persones", ylim=c(0,55), cex.names=0.8)
+points (barx,c(results["enq1_dones",2],results["enq1_homes",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
+
+barx <- barplot(c(results["enq1_edats_.15",1],results["enq1_edats_15_24",1],results["enq1_edats_25_39",1],results["enq1_edats_40_64",1],results["enq1_edats_.64",1],results["enq1_edats_NA",1]), names.arg=c("<15","15-24","25-39","40-64",">64","NS/NC"), main="Edat de la mostra\n(+ població)", sub="l'edat de tot el barri/districte)", xlab="edats (punts vermells per indicar", ylab="% de persones", cex.names=0.8)
+points (barx,c(results["enq1_edats_.15",2],results["enq1_edats_15_24",2],results["enq1_edats_25_39",2],results["enq1_edats_40_64",2],results["enq1_edats_.64",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
+
+barx <- barplot(c(results["enq1_edu_prim",1],results["enq1_edu_secu",1],results["enq1_edu_univ",1],results["enq1_edu_NA",1]), names.arg=c("Prim.","Secun.","Univ.","NS/NC"), main="Estudis de la mostra\n(+ població)", sub="estudis de tot el barri/districte)", xlab="estudis cursats (punts vermells pels", ylab="% de persones", cex.names=0.8)
+points (barx,c(results["enq1_edu_prim",2],results["enq1_edu_secu",2],results["enq1_edu_univ",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
+
+barx <- barplot(c(results["enq1_associ_si",1],results["enq1_associ_no",1],results["enq1_associ_NA",1]), names.arg=c("Sí","No","NS/NC"), main="Participació en teixit associatiu", sub="la resta de la població del barri/districte)", xlab="participació (sense comparacions possibles amb", ylab="% de persones", cex.names=0.8)
+
+```
+
+## Opinions sobre la situació al seu barri
+
+```{r HOUSING_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vivenda_problem_no, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vivenda_problem_no, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_problem_no"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vivenda_problem_alguns, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vivenda_problem_alguns, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_problem_alguns"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vivenda_problem_greus, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vivenda_problem_greus, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_problem_greus"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vivenda_problem_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vivenda_problem_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_problem_NA"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_preu, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_preu, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_preu"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_oferta, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_oferta, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_oferta"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_oferta_pub, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_oferta_pub, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_oferta_pub"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_credit, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_credit, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_credit"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_condicions, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_condicions, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_condicions"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_desnona, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_desnona, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_desnona"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_vivenda_prob_buits, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_vivenda_prob_buits, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vivenda_prob_buits"
+
+```
+
+```{r HOUSING_OPINION_PLOTS, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_vivenda_problem_no",1],results["enq1_vivenda_problem_alguns",1],results["enq1_vivenda_problem_greus",1],results["enq1_vivenda_problem_NA",1]), names.arg=c("No\nn'hi ha","Alguns\nproblemes","Problemes\ngreus","NS/NC"), main="Hi ha problemes d'accés a l'habitatge?", sub="per anàlisi conjunt de tots els barris de la ciutat)", xlab="creuen que hi ha problemes (punts verds", ylab="% de persones", cex.names=0.8)
+points (barx,c(results["enq1_vivenda_problem_no",2],results["enq1_vivenda_problem_alguns",2],results["enq1_vivenda_problem_greus",2],results["enq1_vivenda_problem_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+
+barx <- barplot(c(results["enq1_vivenda_prob_preu",1],results["enq1_vivenda_prob_oferta",1],results["enq1_vivenda_prob_oferta_pub",1],results["enq1_vivenda_prob_credit",1],results["enq1_vivenda_prob_condicions",1],results["enq1_vivenda_prob_desnona",1],results["enq1_vivenda_prob_buits",1]), main="Quin és el principal problema?", sub="per anàlisi conjunt de tots els barris de la ciutat)", xlab="índex de preocupació (punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,30))
+text(0.1,barx[,1]+0.25, c("Qualitat-preu","Manca d'oferta","Manca d'oferta pública","Accés al crèdit","Condicions dels habitatges","Desnonaments","Excés pisos buits"), pos=4)
+points (y=barx,c(results["enq1_vivenda_prob_preu",2],results["enq1_vivenda_prob_oferta",2],results["enq1_vivenda_prob_oferta_pub",2],results["enq1_vivenda_prob_credit",2],results["enq1_vivenda_prob_condicions",2],results["enq1_vivenda_prob_desnona",2],results["enq1_vivenda_prob_buits",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
+
+```
 
