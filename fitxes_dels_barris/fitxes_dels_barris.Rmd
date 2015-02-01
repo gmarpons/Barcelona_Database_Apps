@@ -1,7 +1,7 @@
 ---
 title: "Perfil de barri o districte"
 author: "Grup d'Anàlisi de Dades"
-date: "31/01/2015"
+date: "01/02/2015"
 output:
   pdf_document:
     keep_tex: true
@@ -419,9 +419,9 @@ Nota: Moltes estadístiques oficials es calculen en base a enquestes que no són
 
 # **Dades subjectives** 
 
-La informació que apareix a continuació a sigut recollida mitjançant enquestes fetes a través d'internet ([http://goo.gl/OfqwdC](http://goo.gl/OfqwdC)). Tot i que l'enquesta segueix en funcionamenta, les dades que aquí es presentan van ser descarregades el 28 de gener del 2015. L'objectiu d'aquesta descàrrega inicial és la de poder aportar informacions que puguin ser d'utilitat pel diagnóstic dels barris. És molt important ser conscients de que **la informació que presentem no té cap significació estadística** (i menys a nivell de barris) **que permeti fer cap tipus d'inferència**. 
+La informació que apareix a continuació ha sigut recollida mitjançant enquestes fetes a través d'internet ([http://goo.gl/OfqwdC](http://goo.gl/OfqwdC)). Tot i que l'enquesta segueix en funcionamenta, les dades que aquí es presentan van ser descarregades el 28 de gener del 2015, després de més d'un mes de funcionament. Aquesta descàrrega quan encara està en funcionament té per objectiu el poder aportar informacions que puguin ser d'utilitat pel diagnóstic dels barris uq està fent Guanyem. És molt important ser conscients de que **la informació que presentem no té cap significació estadística** (i menys a nivell de barris) **que permeti fer inferències amb un mínim de certesa**. 
 
-En pràcticament tots els casos, la mostra aconseguida no és prou gran. A més, aquesta mostra no és mai, com veurem a continuació, aleatòria. És per això que demanem NO pendre les informacions recollides en aquesta secció com a dades representatives del conjunt de la població del barri o districte, sinó més aviat com a opinions puntuals a títol personal. Per descomptat, aquests apunts sobre el conjunt de la mostra no li treuen gens d'importància a cadascuna de les valuoses opinions recollides i que també expliquen part de la realitat del barri o districte.
+En pràcticament tots els casos, la mostra aconseguida no és encara gaire gran. A més, aquesta mostra no és mai, com veurem a continuació, aleatòria. És per això que demanem NO pendre les informacions recollides en aquesta secció com a dades representatives del conjunt de la població de barris o districtes, sinó més aviat com a opinions puntuals a títol personal. Per descomptat, aquests apunts sobre el conjunt de la mostra no lis treuen importància a cadascuna de les valuoses opinions recollides, les quals, per si mateixes, també expliquen bona part de la realitat del barri o districte (i per això les oferim).
 
 ```{r INTERVIEW_DATA, echo=F, results="hide"}
 n_results <- n_results + 1
@@ -516,33 +516,39 @@ rownames(results)[n_results] <- "enq1_associ_NA"
 
 ```
 
-## Enquestes al `r analyzing` de '`r toupper(name_analyzed)`' (mostra)
+## Enquestes al `r analyzing` de '`r toupper(name_analyzed)`'
 
-La mostra consta de `r round(results["enq1_respostes",1],0)` enquestes realitzades des de  `r round(results["enq1_ips_unicas",1],0)` IPs diferents. Com es pot comprovar a continuació, el perfil de les persones enquestades no és representatiu del conjunt de la població, mostrant alguns biaixos importants:
+La mostra consta de **`r round(results["enq1_respostes",1],0)` enquestes** realitzades **des de  `r round(results["enq1_ips_unicas",1],0)` IPs diferents**. Com es pot comprovar a continuació, el perfil de les persones enquestades està esbiaixat i no és representatiu del conjunt de la població del barri o districte:
 
 .
 
-```{r INTERVIEW_PLOTS, echo=F, results="hide"}
+```{r INTERVIEW_PLOTS, fig.width=9, fig.height=6.5, echo=F, results="hide"}
 
 #par(oma=c(3,3,5,3))
 #par(mar=c(5,4,5,2) + 0.1) 
 par(mfrow=c(2,2))
 
-barx <- barplot(c(results["enq1_dones",1],results["enq1_homes",1],results["enq1_altre_genere",1]), names.arg=c("Dona","Home.","Altres"), main="Identificació pròpia del gènere", sub="de l'Ajuntament al barri/districte)", xlab="genere (punts vermells per les dades", ylab="% de persones", ylim=c(0,55), cex.names=0.8)
-points (barx,c(results["enq1_dones",2],results["enq1_homes",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
+barx <- barplot(c(results["enq1_edats_.15",1],results["enq1_edats_15_24",1],results["enq1_edats_25_39",1],results["enq1_edats_40_64",1],results["enq1_edats_.64",1],results["enq1_edats_NA",1]), names.arg=c("<15","15-24","25-39","40-64",">64","NS/NC"), main="Edat de la mostra (+ població)", sub="estan representades per triangles vermells)", xlab="edats (les dades oficials -Ajuntament- del barri/districte", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_edats_.15",1],results["enq1_edats_15_24",1],results["enq1_edats_25_39",1],results["enq1_edats_40_64",1],results["enq1_edats_.64",1],results["enq1_edats_NA",1],results["enq1_edats_.15",2],results["enq1_edats_15_24",2],results["enq1_edats_25_39",2],results["enq1_edats_40_64",2],results["enq1_edats_.64",2])+2))
+points (barx,c(results["enq1_edats_.15",2],results["enq1_edats_15_24",2],results["enq1_edats_25_39",2],results["enq1_edats_40_64",2],results["enq1_edats_.64",2],-3), col="darkred", bg="darkred", pch=25, lwd=2)
 
-barx <- barplot(c(results["enq1_edats_.15",1],results["enq1_edats_15_24",1],results["enq1_edats_25_39",1],results["enq1_edats_40_64",1],results["enq1_edats_.64",1],results["enq1_edats_NA",1]), names.arg=c("<15","15-24","25-39","40-64",">64","NS/NC"), main="Edat de la mostra (+ població)", sub="l'edat de tot el barri/districte)", xlab="edats (punts vermells per indicar", ylab="% de persones", cex.names=0.8)
-points (barx,c(results["enq1_edats_.15",2],results["enq1_edats_15_24",2],results["enq1_edats_25_39",2],results["enq1_edats_40_64",2],results["enq1_edats_.64",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
+barx <- barplot(c(results["enq1_edu_prim",1],results["enq1_edu_secu",1],results["enq1_edu_univ",1],results["enq1_edu_NA",1]), names.arg=c("Prim.","Secun.","Univ.","NS/NC"), main="Estudis cursats per la mostra (+ població)", sub="estan representades per triangles vermells)", xlab="estudis cursats (les dades oficials del barri/districte", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_edu_prim",1],results["enq1_edu_secu",1],results["enq1_edu_univ",1],results["enq1_edu_NA",1],results["enq1_edu_prim",2],results["enq1_edu_secu",2],results["enq1_edu_univ",2])+2))
+points (barx,c(results["enq1_edu_prim",2],results["enq1_edu_secu",2],results["enq1_edu_univ",2],-3), col="darkred", bg="darkred", pch=25, lwd=2)
 
-barx <- barplot(c(results["enq1_edu_prim",1],results["enq1_edu_secu",1],results["enq1_edu_univ",1],results["enq1_edu_NA",1]), names.arg=c("Prim.","Secun.","Univ.","NS/NC"), main="Estudis cursats per la mostra (+ població)", sub="estudis de tot el barri/districte)", xlab="estudis cursats (punts vermells pels", ylab="% de persones", cex.names=0.8)
-points (barx,c(results["enq1_edu_prim",2],results["enq1_edu_secu",2],results["enq1_edu_univ",2],-3), col="darkred", bg="darkred", pch=8, lwd=2)
+barx <- barplot(c(results["enq1_dones",1],results["enq1_homes",1],results["enq1_altre_genere",1]), names.arg=c("Dona","Home.","Altres"), main="Gènere amb el que identificar-se", sub="representades per triangles vermells)", xlab="genere (les dades de l'Ajuntament estan", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_dones",1],results["enq1_homes",1],results["enq1_altre_genere",1],results["enq1_dones",2],results["enq1_homes",2])+2))
+points (barx,c(results["enq1_dones",2],results["enq1_homes",2],-3), col="darkred", bg="darkred", pch=25, lwd=2)
 
-barx <- barplot(c(results["enq1_associ_si",1],results["enq1_associ_no",1],results["enq1_associ_NA",1]), names.arg=c("Sí","No","NS/NC"), main="Participació en teixit associatiu", sub="la resta de la població del barri/districte)", xlab="participació (sense comparacions possibles amb", ylab="% de persones", cex.names=0.8)
+barx <- barplot(c(results["enq1_associ_si",1],results["enq1_associ_no",1],results["enq1_associ_NA",1]), names.arg=c("Sí","No","NS/NC"), main="Participació en teixit associatiu", sub="possibles dades de l'Ajuntament al respecte)", xlab="participació (no hem comparat amb", ylab="% de persones", cex.names=0.8)
 
 ```
 
 
-## Opinions sobre la situació al barri
+\newpage
+
+
+
+## Opinions sobre la situació general al barri o districte
+
+.
 
 ```{r HOUSING_OPINION_DATA, echo=F, results="hide"}
 
@@ -610,14 +616,14 @@ rownames(results)[n_results] <- "enq1_vivenda_prob_buits"
 ```
 
 
-```{r HOUSING_OPINION_PLOTS, echo=F, results="hide"}
+```{r HOUSING_OPINION_PLOTS, fig.width=9, fig.height=5, echo=F, results="hide"}
 
 par(mfrow=c(1,2))
 
-barx <- barplot(c(results["enq1_vivenda_problem_no",1],results["enq1_vivenda_problem_alguns",1],results["enq1_vivenda_problem_greus",1],results["enq1_vivenda_problem_NA",1]), names.arg=c("No\nn'hi ha","Alguns\nproblemes","Problemes\ngreus","NS/NC"), main="Hi ha problemes d'accés a l'habitatge?", sub="per anàlisi conjunt de tots els barris de la ciutat)", xlab="creuen que hi ha problemes (punts verds", ylab="% de persones", cex.names=0.8)
+barx <- barplot(c(results["enq1_vivenda_problem_no",1],results["enq1_vivenda_problem_alguns",1],results["enq1_vivenda_problem_greus",1],results["enq1_vivenda_problem_NA",1]), names.arg=c("No\nn hi ha","Alguns\nproblemes","Problemes\ngreus","NS/NC"), main="Hi ha problemes d'accés a l'habitatge?", sub="tota Barcelona són representades amb punts verds)", xlab="problemes d'habitatge al barri (les dades de", ylab="% de persones", cex.names=0.8,ylim=c(0,max(results["enq1_vivenda_problem_no",1],results["enq1_vivenda_problem_alguns",1],results["enq1_vivenda_problem_greus",1],results["enq1_vivenda_problem_NA",1],results["enq1_vivenda_problem_no",2],results["enq1_vivenda_problem_alguns",2],results["enq1_vivenda_problem_greus",2],results["enq1_vivenda_problem_NA",2])+2))
 points (barx,c(results["enq1_vivenda_problem_no",2],results["enq1_vivenda_problem_alguns",2],results["enq1_vivenda_problem_greus",2],results["enq1_vivenda_problem_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
 
-barx <- barplot(c(results["enq1_vivenda_prob_preu",1],results["enq1_vivenda_prob_oferta",1],results["enq1_vivenda_prob_oferta_pub",1],results["enq1_vivenda_prob_credit",1],results["enq1_vivenda_prob_condicions",1],results["enq1_vivenda_prob_desnona",1],results["enq1_vivenda_prob_buits",1]), main="Quin és el principal problema?", sub="és anàlisi conjunt de tots els barris de la ciutat)", xlab="índex de preocupació (punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,30))
+barx <- barplot(c(results["enq1_vivenda_prob_preu",1],results["enq1_vivenda_prob_oferta",1],results["enq1_vivenda_prob_oferta_pub",1],results["enq1_vivenda_prob_credit",1],results["enq1_vivenda_prob_condicions",1],results["enq1_vivenda_prob_desnona",1],results["enq1_vivenda_prob_buits",1]), main="Principal prob. d'accés a l'habitatge:", sub="fan referència les dades de tots els barris)", xlab="índex de preocupació (els punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,max(results["enq1_vivenda_prob_preu",2],results["enq1_vivenda_prob_oferta",2],results["enq1_vivenda_prob_oferta_pub",2],results["enq1_vivenda_prob_credit",2],results["enq1_vivenda_prob_condicions",2],results["enq1_vivenda_prob_desnona",2],results["enq1_vivenda_prob_buits",2],results["enq1_vivenda_prob_preu",1],results["enq1_vivenda_prob_oferta",1],results["enq1_vivenda_prob_oferta_pub",1],results["enq1_vivenda_prob_credit",1],results["enq1_vivenda_prob_condicions",1],results["enq1_vivenda_prob_desnona",1],results["enq1_vivenda_prob_buits",1])+2))
 text(0.2,barx[,1]+0.25, c("Qualitat-preu","Manca d'oferta","Manca d'oferta pública","Accés al crèdit","Condicions dels habitatges","Desnonaments","Excés pisos buits"), pos=4)
 points (y=barx,c(results["enq1_vivenda_prob_preu",2],results["enq1_vivenda_prob_oferta",2],results["enq1_vivenda_prob_oferta_pub",2],results["enq1_vivenda_prob_credit",2],results["enq1_vivenda_prob_condicions",2],results["enq1_vivenda_prob_desnona",2],results["enq1_vivenda_prob_buits",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
 
@@ -625,19 +631,704 @@ points (y=barx,c(results["enq1_vivenda_prob_preu",2],results["enq1_vivenda_prob_
 
 
 ```{r HOUSING_OPINION_MORE_PROBLEMS, echo=F, results="hide"}
-n_results <- n_results + 1
-results[n_results,2] <-  NA
-rownames(results)[n_results] <- "enq1_vivenda_prob_altres"
+trash <- ""
 for (i in 1:nrow(barris)) {
   if (barris[i,"enq1_vivenda_prob_altres"]!="" & !is.na(barris[i,"enq1_vivenda_prob_altres"])) {
-    results[n_results,1] <- paste(results[n_results,1],barris[i,"enq1_vivenda_prob_altres"], sep=" / ")
+    trash <- paste(trash,as.character(barris[i,"enq1_vivenda_prob_altres"]), sep=" / ")
   }
 }
+trash <- gsub("^ / ","",trash,perl=T)
 ```
 
-Altres problemes del barri relacionats amb la vivenda i enumerats durant les enquestes (sense filtratge previ): *`r results["enq1_vivenda_prob_altres",1]`*.
+
+Altres problemes del barri/districte relacionats amb l'habitatge i enumerats durant les enquestes (sense filtratge previ): *`r trash`*.
+
+.
+
+```{r EDUCATION_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_enseny_molt_do, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_enseny_molt_do, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_molt_do"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_enseny_dolenta, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_enseny_dolenta, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_dolenta"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_enseny_ok, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_enseny_ok, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_ok"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_enseny_bona, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_enseny_bona, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_bona"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_enseny_molt_bo, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_enseny_molt_bo, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_molt_bo"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_enseny_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_enseny_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_NA"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_enseny_prob_places, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_enseny_prob_places, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_prob_places"
 
 
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_enseny_prob_lluny, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_enseny_prob_lluny, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_prob_lluny"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_enseny_prob_estat, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_enseny_prob_estat, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_prob_estat"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_enseny_prob_qualitat, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_enseny_prob_qualitat, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_prob_qualitat"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_enseny_prob_desigual, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_enseny_prob_desigual, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_enseny_prob_desigual"
+
+
+```
+
+
+```{r EDUCATION_OPINION_PLOTS, fig.width=9, fig.height=5, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_enseny_molt_do",1],results["enq1_enseny_dolenta",1],results["enq1_enseny_ok",1],results["enq1_enseny_bona",1],results["enq1_enseny_molt_bo",1],results["enq1_enseny_NA",1]), names.arg=c("Molt\ndolenta","Dole.","Normal","Bona","Molt\nbona","NS/NC"), main="Quina situació està l'ensenyament públic?", sub="Barcelona són representades amb punts verds)", xlab="opinions sobre la situació al barri (les dades de tota", ylab="% de persones", cex.names=0.8,ylim=c(0,max(results["enq1_enseny_molt_do",1],results["enq1_enseny_dolenta",1],results["enq1_enseny_ok",1],results["enq1_enseny_bona",1],results["enq1_enseny_molt_bo",1],results["enq1_enseny_NA",1],results["enq1_enseny_molt_do",2],results["enq1_enseny_dolenta",2],results["enq1_enseny_ok",2],results["enq1_enseny_bona",2],results["enq1_enseny_molt_bo",2],results["enq1_enseny_NA",2])+2))
+points (barx,c(results["enq1_enseny_molt_do",2],results["enq1_enseny_dolenta",2],results["enq1_enseny_ok",2],results["enq1_enseny_bona",2],results["enq1_enseny_molt_bo",2],results["enq1_enseny_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+barx <- barplot(c(results["enq1_enseny_prob_places",1],results["enq1_enseny_prob_lluny",1],results["enq1_enseny_prob_estat",1],results["enq1_enseny_prob_qualitat",1],results["enq1_enseny_prob_desigual",1]), main="Principal prob. en l'ensenyament públic:", sub="fan referència a les dades de tots els barris)", xlab="índex de preocupació (els punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,max(results["enq1_enseny_prob_places",1],results["enq1_enseny_prob_lluny",1],results["enq1_enseny_prob_estat",1],results["enq1_enseny_prob_qualitat",1],results["enq1_enseny_prob_desigual",1],results["enq1_enseny_prob_places",2],results["enq1_enseny_prob_lluny",2],results["enq1_enseny_prob_estat",2],results["enq1_enseny_prob_qualitat",2],results["enq1_enseny_prob_desigual",2])+2))
+text(0.2,barx[,1]+0.25, c("Manca de places","Llunyania de casa","Estat d'edifici i instal·lacions","Qualitat de l'ensenyament","Desigualtat entre escoles"), pos=4)
+points (y=barx,c(results["enq1_enseny_prob_places",2],results["enq1_enseny_prob_lluny",2],results["enq1_enseny_prob_estat",2],results["enq1_enseny_prob_qualitat",2],results["enq1_enseny_prob_desigual",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
+
+```
+
+
+```{r EDUCATION_OPINION_MORE_PROBLEMS, echo=F, results="hide"}
+trash <- ""
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_enseny_prob_altres"]!="" & !is.na(barris[i,"enq1_enseny_prob_altres"])) {
+    trash <- paste(trash,as.character(barris[i,"enq1_enseny_prob_altres"]), sep=" / ")
+  }
+}
+trash <- gsub("^ / ","",trash,perl=T)
+```
+
+
+.
+
+Altres problemes del barri relacionats amb l'educació i enumerats durant les enquestes (sense filtratge previ): *`r trash`*.
+
+
+.
+
+```{r HEALTH_SERVICE_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_sanitat_molt_do, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_sanitat_molt_do, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_molt_do"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_sanitat_dolenta, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_sanitat_dolenta, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_dolenta"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_sanitat_ok, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_sanitat_ok, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_ok"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_sanitat_bona, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_sanitat_bona, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_bona"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_sanitat_molt_bo, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_sanitat_molt_bo, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_molt_bo"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_sanitat_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_sanitat_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_NA"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_sanitat_prob_prim, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_sanitat_prob_prim, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_prob_prim"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_sanitat_prob_hosp, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_sanitat_prob_hosp, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_prob_hosp"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_sanitat_prob_urge, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_sanitat_prob_urge, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_prob_urge"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_sanitat_prob_espera, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_sanitat_prob_espera, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_prob_espera"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_sanitat_prob_tracte, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_sanitat_prob_tracte, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_prob_tracte"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_sanitat_prob_qualit, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_sanitat_prob_qualit, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_sanitat_prob_qualit"
+
+
+```
+
+
+```{r HEALTH_SERVICE_OPINION_PLOTS, fig.width=9, fig.height=6, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_sanitat_molt_do",1],results["enq1_sanitat_dolenta",1],results["enq1_sanitat_ok",1],results["enq1_sanitat_bona",1],results["enq1_sanitat_molt_bo",1],results["enq1_sanitat_NA",1]), names.arg=c("Molt\ndolenta","Dole.","Normal","Bona","Molt\nbona","NS/NC"), main="Quina situació està la sanitat pública?", sub="Barcelona són representades amb punts verds)", xlab="opinions sobre la situació **al barri** (les dades de tota", ylab="% de persones", cex.names=0.8,ylim=c(0,max(results["enq1_sanitat_molt_do",1],results["enq1_sanitat_dolenta",1],results["enq1_sanitat_ok",1],results["enq1_sanitat_bona",1],results["enq1_sanitat_molt_bo",1],results["enq1_sanitat_NA",1],results["enq1_sanitat_molt_do",2],results["enq1_sanitat_dolenta",2],results["enq1_sanitat_ok",2],results["enq1_sanitat_bona",2],results["enq1_sanitat_molt_bo",2],results["enq1_sanitat_NA",2])+2))
+points (barx,c(results["enq1_sanitat_molt_do",2],results["enq1_sanitat_dolenta",2],results["enq1_sanitat_ok",2],results["enq1_sanitat_bona",2],results["enq1_sanitat_molt_bo",2],results["enq1_sanitat_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+barx <- barplot(c(results["enq1_sanitat_prob_prim",1],results["enq1_sanitat_prob_hosp",1],results["enq1_sanitat_prob_urge",1],results["enq1_sanitat_prob_espera",1],results["enq1_sanitat_prob_tracte",1],results["enq1_sanitat_prob_qualit",1]), main="Ppal. prob. en l'atenció sanitària pública:", sub="fan referència a les dades de tots els barris)", xlab="índex de preocupació (els punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,max(results["enq1_sanitat_prob_prim",1],results["enq1_sanitat_prob_hosp",1],results["enq1_sanitat_prob_urge",1],results["enq1_sanitat_prob_espera",1],results["enq1_sanitat_prob_tracte",1],results["enq1_sanitat_prob_qualit",1],results["enq1_sanitat_prob_prim",2],results["enq1_sanitat_prob_hosp",2],results["enq1_sanitat_prob_urge",2],results["enq1_sanitat_prob_espera",2],results["enq1_sanitat_prob_tracte",2],results["enq1_sanitat_prob_qualit",2])+2))
+text(0.2,barx[,1]+0.25, c("Manca atenció primària","Manca serveis hospitalaris","Manca serveis d'urgències","Temps d'espera","problemes d'atenció/tracte","Problemes de qualitat"), pos=4)
+points (y=barx,c(results["enq1_sanitat_prob_prim",2],results["enq1_sanitat_prob_hosp",2],results["enq1_sanitat_prob_urge",2],results["enq1_sanitat_prob_espera",2],results["enq1_sanitat_prob_tracte",2],results["enq1_sanitat_prob_qualit",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
+
+```
+
+
+```{r HEALTH_SERVICE_OPINION_MORE_PROBLEMS, echo=F, results="hide"}
+trash <- ""
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_sanitat_prob_altres"]!="" & !is.na(barris[i,"enq1_sanitat_prob_altres"])) {
+    trash <- paste(trash,as.character(barris[i,"enq1_sanitat_prob_altres"]), sep=" / ")
+  }
+}
+trash <- gsub("^ / ","",trash,perl=T)
+```
+
+
+.
+
+Altres problemes del barri relacionats amb l'atenció sanitària pública i que també han sortit (sense filtratge previ): *`r trash`*.
+
+
+.
+
+```{r TRANSPORT_AND_POLLUTION_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_transport_molt_ele, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_transport_molt_ele, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_transport_molt_ele"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_transport_elevat, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_transport_elevat, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_transport_elevat"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_transport_preu_ok, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_transport_preu_ok, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_transport_preu_ok"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_transport_baix, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_transport_baix, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_transport_baix"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_transport_molt_baix, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_transport_molt_baix, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_transport_molt_baix"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_transport_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_transport_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_transport_NA"
+
+
+
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_aire_molt_do, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_aire_molt_do, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_aire_molt_do"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_aire_dolenta, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_aire_dolenta, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_aire_dolenta"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_aire_ok, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_aire_ok, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_aire_ok"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_aire_bona, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_aire_bona, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_aire_bona"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_aire_molt_bo, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_aire_molt_bo, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_aire_molt_bo"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_aire_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_aire_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_aire_NA"
+
+
+```
+
+
+```{r TRANSPORT_AND_POLLUTION_OPINION_PLOTS, fig.width=9, fig.height=6, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_transport_molt_ele",1],results["enq1_transport_elevat",1],results["enq1_transport_preu_ok",1],results["enq1_transport_baix",1],results["enq1_transport_molt_baix",1],results["enq1_transport_NA",1]), names.arg=c("Massa\naltes","Altes","Normal","Baixes","Molt\nbaix.","NS/NC"), main="Com són les tarifes del transport públic?", sub="conjuntament són representades amb punts verds)", xlab="opinions sobre el preu (les dades de tots els barris", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_transport_molt_ele",1],results["enq1_transport_elevat",1],results["enq1_transport_preu_ok",1],results["enq1_transport_baix",1],results["enq1_transport_molt_baix",1],results["enq1_transport_NA",1],results["enq1_transport_molt_ele",2],results["enq1_transport_elevat",2],results["enq1_transport_preu_ok",2],results["enq1_transport_baix",2],results["enq1_transport_molt_baix",2],results["enq1_transport_NA",2])+2))
+points (barx,c(results["enq1_transport_molt_ele",2],results["enq1_transport_elevat",2],results["enq1_transport_preu_ok",2],results["enq1_transport_baix",2],results["enq1_transport_molt_baix",2],results["enq1_transport_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+
+barx <- barplot(c(results["enq1_aire_molt_do",1],results["enq1_aire_dolenta",1],results["enq1_aire_ok",1],results["enq1_aire_bona",1],results["enq1_aire_molt_bo",1],results["enq1_aire_NA",1]), names.arg=c("Molt\ndolenta","Dole.","Normal","Bona","Molt\nbona","NS/NC"), main="Com valores la qualitat del aire?", sub="Barcelona són representades amb punts verds)", xlab="opinions sobre l'aire **al barri* (les dades de tota", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_aire_molt_do",1],results["enq1_aire_dolenta",1],results["enq1_aire_ok",1],results["enq1_aire_bona",1],results["enq1_aire_molt_bo",1],results["enq1_aire_NA",1],results["enq1_aire_molt_do",2],results["enq1_aire_dolenta",2],results["enq1_aire_ok",2],results["enq1_aire_bona",2],results["enq1_aire_molt_bo",2],results["enq1_aire_NA",2])+2))
+points (barx,c(results["enq1_aire_molt_do",2],results["enq1_aire_dolenta",2],results["enq1_aire_ok",2],results["enq1_aire_bona",2],results["enq1_aire_molt_bo",2],results["enq1_aire_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+```
+
+
+.
+
+```{r NOISE_AND_TURISM_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_soroll_molt_alt, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_soroll_molt_alt, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_soroll_molt_alt"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_soroll_alt, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_soroll_alt, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_soroll_alt"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_soroll_normal, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_soroll_normal, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_soroll_normal"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_soroll_baix, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_soroll_baix, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_soroll_baix"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_soroll_molt_baix, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_soroll_molt_baix, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_soroll_molt_baix"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_soroll_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_soroll_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_soroll_NA"
+
+
+
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_turisme_perju, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_turisme_perju, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turisme_perju"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_turisme_res, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_turisme_res, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turisme_res"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_turisme_benef, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_turisme_benef, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turisme_benef"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_turisme_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_turisme_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turisme_NA"
+
+
+```
+
+
+```{r NOISE_AND_TURISM_OPINION_PLOTS, fig.width=9, fig.height=6, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_soroll_molt_alt",1],results["enq1_soroll_alt",1],results["enq1_soroll_normal",1],results["enq1_soroll_baix",1],results["enq1_soroll_molt_baix",1],results["enq1_soroll_NA",1]), names.arg=c("Molt\nalt","Alt","Normal","Baix","Molt\nbaix","NS/NC"), main="Quin nivell de soroll té el barri?", sub="de tots els barris representades en punts verds)", xlab="opinió sobre soroll diürn i nocturn (dades conjuntes", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_soroll_molt_alt",1],results["enq1_soroll_alt",1],results["enq1_soroll_normal",1],results["enq1_soroll_baix",1],results["enq1_soroll_molt_baix",1],results["enq1_soroll_NA",1],results["enq1_soroll_molt_alt",2],results["enq1_soroll_alt",2],results["enq1_soroll_normal",2],results["enq1_soroll_baix",2],results["enq1_soroll_molt_baix",2],results["enq1_soroll_NA",2])+2))
+points (barx,c(results["enq1_soroll_molt_alt",2],results["enq1_soroll_alt",2],results["enq1_soroll_normal",2],results["enq1_soroll_baix",2],results["enq1_soroll_molt_baix",2],results["enq1_soroll_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+
+barx <- barplot(c(results["enq1_turisme_perju",1],results["enq1_turisme_res",1],results["enq1_turisme_benef",1],results["enq1_turisme_NA",1]), names.arg=c("Perjudicial","Neutre","Beneficiós","NS/NC"), main="Quin efecte té el turisme al barri?", sub="tota Barcelona són representades amb punts verds)", xlab="opinions sobre el turisme **al barri* (les dades de", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_turisme_perju",1],results["enq1_turisme_res",1],results["enq1_turisme_benef",1],results["enq1_turisme_NA",1],results["enq1_turisme_perju",2],results["enq1_turisme_res",2],results["enq1_turisme_benef",2],results["enq1_turisme_NA",2])+2))
+points (barx,c(results["enq1_turisme_perju",2],results["enq1_turisme_res",2],results["enq1_turisme_benef",2],results["enq1_turisme_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+```
+
+.
+
+```{r TURISME_2_AND_PLACE_ABSENCE_OPINION_DATA, echo=F, results="hide"}
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_exces, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_exces, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_exces"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_insuf, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_insuf, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_insuf"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_preus, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_preus, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_preus"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_espai, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_espai, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_espai"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_soroll, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_soroll, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_soroll"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_brutic, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_brutic, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_brutic"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_turis_prob_cap, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_turis_prob_cap, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_turis_prob_cap"
+
+
+
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_espai_manc_parcs, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_espai_manc_parcs, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_espai_manc_parcs"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_espai_manc_bibli, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_espai_manc_bibli, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_espai_manc_bibli"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_espai_manc_civic, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_espai_manc_civic, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_espai_manc_civic"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_espai_manc_espor, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_espai_manc_espor, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_espai_manc_espor"
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_espai_manc_zjocs, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_espai_manc_zjocs, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_espai_manc_zjocs"
+
+n_results <- n_results + 1
+results[n_results,1] <- 50*sum(barris$enq1_espai_manc_place, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  50*sum(ciutat$enq1_espai_manc_place, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_espai_manc_place"
+
+
+```
+
+
+```{r TURISME_2_AND_PLACE_ABSENCE_OPINION_PLOTS, fig.width=9, fig.height=6, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_turis_prob_exces",1],results["enq1_turis_prob_insuf",1],results["enq1_turis_prob_preus",1],results["enq1_turis_prob_espai",1],results["enq1_turis_prob_soroll",1],results["enq1_turis_prob_brutic",1],results["enq1_turis_prob_cap",1]), main="Inconvenient del turisme al barri:", sub="fan referència a les dades de tots els barris)", xlab="índex de preocupació (els punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,max(results["enq1_turis_prob_exces",1],results["enq1_turis_prob_insuf",1],results["enq1_turis_prob_preus",1],results["enq1_turis_prob_espai",1],results["enq1_turis_prob_soroll",1],results["enq1_turis_prob_brutic",1],results["enq1_turis_prob_cap",1],results["enq1_turis_prob_exces",2],results["enq1_turis_prob_insuf",2],results["enq1_turis_prob_preus",2],results["enq1_turis_prob_espai",2],results["enq1_turis_prob_soroll",2],results["enq1_turis_prob_brutic",2],results["enq1_turis_prob_cap",2])+2))
+text(0.2,barx[,1]+0.25, c("Excessiu","Insuficient","Preus alts","Saturació de l'espai públic","Sorolls","Escombraries/brutícia","Cap"), pos=4)
+points (y=barx,c(results["enq1_turis_prob_exces",2],results["enq1_turis_prob_insuf",2],results["enq1_turis_prob_preus",2],results["enq1_turis_prob_espai",2],results["enq1_turis_prob_soroll",2],results["enq1_turis_prob_brutic",2],results["enq1_turis_prob_cap",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
+
+
+barx <- barplot(c(results["enq1_espai_manc_parcs",1],results["enq1_espai_manc_bibli",1],results["enq1_espai_manc_civic",1],results["enq1_espai_manc_espor",1],results["enq1_espai_manc_zjocs",1],results["enq1_espai_manc_place",1]), main="Quins espais falten al barri?", sub="fan referència a les dades de tots els barris)", xlab="opinions sobre mancança d'espais (els punts verds", cex.names=0.8, horiz=T, las=1, xlim=c(0,max(results["enq1_espai_manc_parcs",1],results["enq1_espai_manc_bibli",1],results["enq1_espai_manc_civic",1],results["enq1_espai_manc_espor",1],results["enq1_espai_manc_zjocs",1],results["enq1_espai_manc_place",1],results["enq1_espai_manc_parcs",2],results["enq1_espai_manc_bibli",2],results["enq1_espai_manc_civic",2],results["enq1_espai_manc_espor",2],results["enq1_espai_manc_zjocs",2],results["enq1_espai_manc_place",2])+2))
+text(0.2,barx[,1]+0.25, c("Parcs i zones verdes","Biblioteques","Centres cívics","Centres sportius","Zones de jocs","Places"), pos=4)
+points (y=barx,c(results["enq1_espai_manc_parcs",2],results["enq1_espai_manc_bibli",2],results["enq1_espai_manc_civic",2],results["enq1_espai_manc_espor",2],results["enq1_espai_manc_zjocs",2],results["enq1_espai_manc_place",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=1)
+
+```
+
+
+```{r TURISME_2_OPINION_MORE_PROBLEMS, echo=F, results="hide"}
+trash <- ""
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_turis_prob_altres"]!="" & !is.na(barris[i,"enq1_turis_prob_altres"])) {
+    trash <- paste(trash,as.character(barris[i,"enq1_turis_prob_altres"]), sep=" / ")
+  }
+}
+trash <- gsub("^ / ","",trash,perl=T)
+```
+
+
+.
+
+Altres incovenients, relacionats amb el turisme, i que afecten al barri (sense filtratge previ): *`r trash`*
+
+```{r PLACE_ABSENCE_OPINION_MORE_PROBLEMS, echo=F, results="hide"}
+trash <- ""
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_espai_manc_altres"]!="" & !is.na(barris[i,"enq1_espai_manc_altres"])) {
+    trash <- paste(trash,as.character(barris[i,"enq1_espai_manc_altres"]), sep=" / ")
+  }
+}
+trash <- gsub("^ / ","",trash,perl=T)
+```
+
+
+
+Altres incovenients, relacionats amb el turisme, i que afecten al barri (sense filtratge previ): *`r trash`*
+
+.
+
+```{r PARTICIPATION_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_opinar_molt_ins, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_opinar_molt_ins, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_opinar_molt_ins"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_opinar_insufici, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_opinar_insufici, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_opinar_insufici"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_opinar_ok, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_opinar_ok, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_opinar_ok"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_opinar_excessiv, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_opinar_excessiv, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_opinar_excessiv"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_opinar_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_opinar_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_opinar_NA"
+
+
+
+
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vida_asso_molt_ins, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vida_asso_molt_ins, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vida_asso_molt_ins"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vida_asso_insufici, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vida_asso_insufici, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vida_asso_insufici"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vida_asso_ok, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vida_asso_ok, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vida_asso_ok"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vida_asso_excessiv, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vida_asso_excessiv, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vida_asso_excessiv"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_vida_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_vida_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_vida_NA"
+
+
+```
+
+
+```{r PARTICIPATION_OPINION_PLOTS, fig.width=9, fig.height=6, echo=F, results="hide"}
+
+par(mfrow=c(1,2))
+
+barx <- barplot(c(results["enq1_opinar_molt_ins",1],results["enq1_opinar_insufici",1],results["enq1_opinar_ok",1],results["enq1_opinar_excessiv",1],results["enq1_opinar_NA",1]), names.arg=c("Molt\ninsuf.","Insufi\ncients","Bé","Exce\nssives","NS/NC"), main="Quina capacitat d'opinar i influir tenim?", sub="de tots els barris representades en punts verds)", xlab="influència ciutadana en polítiques municipals (dades conjuntes", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_opinar_molt_ins",1],results["enq1_opinar_insufici",1],results["enq1_opinar_ok",1],results["enq1_opinar_excessiv",1],results["enq1_opinar_NA",1],results["enq1_opinar_molt_ins",2],results["enq1_opinar_insufici",2],results["enq1_opinar_ok",2],results["enq1_opinar_excessiv",2],results["enq1_opinar_NA",2])+2))
+points (barx,c(results["enq1_opinar_molt_ins",2],results["enq1_opinar_insufici",2],results["enq1_opinar_ok",2],results["enq1_opinar_excessiv",2],results["enq1_opinar_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+
+barx <- barplot(c(results["enq1_vida_asso_molt_ins",1],results["enq1_vida_asso_insufici",1],results["enq1_vida_asso_ok",1],results["enq1_vida_asso_excessiv",1],results["enq1_vida_NA",1]), names.arg=c("Molt\ninsuf.","Insufi\ncients","Bé","Exce\nssives","NS/NC"), main="Al barri hi ha instàncies de vida associativa?", sub="tota la mostra de Barcelona està als punts verds)", xlab="cooperatives, entitats culturals, etc. (l'opinió de", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_vida_asso_molt_ins",1],results["enq1_vida_asso_insufici",1],results["enq1_vida_asso_ok",1],results["enq1_vida_asso_excessiv",1],results["enq1_vida_NA",1],results["enq1_vida_asso_molt_ins",2],results["enq1_vida_asso_insufici",2],results["enq1_vida_asso_ok",2],results["enq1_vida_asso_excessiv",2],results["enq1_vida_NA",2])+2))
+points (barx,c(results["enq1_vida_asso_molt_ins",2],results["enq1_vida_asso_insufici",2],results["enq1_vida_asso_ok",2],results["enq1_vida_asso_excessiv",2],results["enq1_vida_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+```
+
+
+.
+
+```{r COUNCILOR_ELECTION_OPINION_DATA, echo=F, results="hide"}
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_regidor_si, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_regidor_si, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_regidor_si"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_regidor_no, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_regidor_no, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_regidor_no"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_regidor_nose, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_regidor_nose, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_regidor_nose"
+
+n_results <- n_results + 1
+results[n_results,1] <- 100*sum(barris$enq1_regidor_NA, na.rm = T)/sum(barris$enq1_respostes, na.rm = T)
+results[n_results,2] <-  100*sum(ciutat$enq1_regidor_NA, na.rm = T)/sum(ciutat$enq1_respostes, na.rm = T)
+rownames(results)[n_results] <- "enq1_regidor_NA"
+
+
+```
+
+
+```{r COUNCILOR_ELECTION_OPINION_PLOTS, fig.width=6, fig.height=4, echo=F, results="hide"}
+
+par(mfrow=c(1,1))
+
+barx <- barplot(c(results["enq1_regidor_si",1],results["enq1_regidor_no",1],results["enq1_regidor_nose",1],results["enq1_regidor_NA",1]), names.arg=c("Sí.","No","No ho sé","NS/NC"), main="Semblaria bé escollir regidors de districte?", sub="(punts verds representen totes les entrevistes realitzades)", xlab="regidors escollits directament per la ciutadania", ylab="% de persones", cex.names=0.8, ylim=c(0,max(results["enq1_regidor_si",1],results["enq1_regidor_no",1],results["enq1_regidor_nose",1],results["enq1_regidor_NA",1],results["enq1_regidor_si",2],results["enq1_regidor_no",2],results["enq1_regidor_nose",2],results["enq1_regidor_NA",2])+2))
+points (barx,c(results["enq1_regidor_si",2],results["enq1_regidor_no",2],results["enq1_regidor_nose",2],results["enq1_regidor_NA",2]), col="darkgreen", bg="darkgreen", pch=8, lwd=2)
+
+```
+
+```{r OTHER_PROBLEMS_OPINIONS, echo=F, results="hide"}
+trash <- ""
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_altres_probl"]!="" & !is.na(barris[i,"enq1_altres_probl"])) {
+    trash <- paste(trash,as.character(barris[i,"enq1_altres_probl"]), sep=" / ")
+  }
+}
+trash <- gsub("^ / ","",trash,perl=T)
+```
+
+
+.
+
+**Quins altres problemes no esmentats en el qüestionari són importants al barri on vius? I per la ciutat? (respostes en brut, sense filtrar):** *`r trash`*.
+
+```{r OTHER_SOLUTIONS_OPINIONS, echo=F, results="hide"}
+trash <- ""
+for (i in 1:nrow(barris)) {
+  if (barris[i,"enq1_propostes"]!="" & !is.na(barris[i,"enq1_propostes"])) {
+    trash <- paste(trash,as.character(barris[i,"enq1_propostes"]), sep=" / ")
+  }
+}
+trash <- gsub("^ / ","",trash,perl=T)
+```
+
+.
+
+**Tens alguna proposta per al barri/districte que es pogués implementar en el futur? (respostes en brut, sense filtrar):** *`r trash`*.
+
+
+
+\newpage
+
+#**Perfil del `r analyzing` de '`r toupper(name_analyzed)`'**
+##Data: 31 de Gener del 2015.
+##Versió: 01 de Febrerer del 2015.
+
+
+.
+
+.
+
+.
+
+
+Aquest informe ha estat desenvolupat pel **Grup d’Anàlisi** de Guanyem Barcelona.
+
+
+La llicència que dóna cobertura a l’informe és una llicència *Creative Commons* (CC) del tipus BY-SA. Des del *Grup d’Anàlisi de Dades* de Guanyem creiem que tota persona ha de ser lliure de reproduir, millorar i supervisar tot tipus de conclusió basada en l’anàlisi de dades quantitatives i per aquesta raó optem per distribuir el nostre material sota una llicència de copyleft. La democràcia comença en la transparència, també a nivell metodològic, eś per això que t’encoratgem a copiar, difondre i enriquir la informació present en aquest treball. Sense importar si tu obtindràs un benefici econòmic o no, l’únic que et demanem es que també facis ús d’una llicència CC-BY-SA. Aquesta llicència implica la correcta citació i enllaç a la font i autor del contingut utilitzat. Si no vols acollir-te a aquesta llicència i vols fer-ne un us directa o indirectament comercial, si us plau posa’t en contacte amb nosaltres per que te n’autoritzem. Visita http://cat.creativecommons.org per a més informació.
+
+.
+
+.
+
+.
+
+.
+
+
+
+![Guanyem Barcelona](/home/jose/Documents/GitHub/AnalisiGuanyem/Barcelona_Database_Apps/fitxes_dels_barris/guanyem.png)
+
+##**Grup d’Anàlisi de Dades**
+
+##analisi.guanyem@gmail.com
+
+.
+
+.
+
+.
+
+
+.
+
+.
+
+.
+
+![Creative Commons BY-SA](/home/jose/Documents/GitHub/AnalisiGuanyem/Barcelona_Database_Apps/fitxes_dels_barris/creativecommons.png)*Grup d’Anàlisi de Dades Guanyem, 2015.*
+
+*© Aquesta obra està subjecta a la llicència de Reconeixement-CompartirIgual 4.0 Internacional Creative Commons. Per veure una còpia de la llicència, visiteu http://creativecommons.org/licenses/by-sa/4.0/.*
 
 
 
