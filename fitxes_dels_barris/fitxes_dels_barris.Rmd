@@ -1315,7 +1315,7 @@ La llicència que dóna cobertura a l’informe és una llicència *Creative Com
 
 
 
-![Guanyem Barcelona](/home/jose/Documents/GitHub/AnalisiGuanyem/Barcelona_Database_Apps/fitxes_dels_barris/guanyem.png)
+![Guanyem Barcelona](guanyem.png)
 
 ##**Grup d’Anàlisi de Dades**
 
@@ -1334,7 +1334,7 @@ La llicència que dóna cobertura a l’informe és una llicència *Creative Com
 
 .
 
-![Creative Commons BY-SA](/home/jose/Documents/GitHub/AnalisiGuanyem/Barcelona_Database_Apps/fitxes_dels_barris/creativecommons.png)*Grup d’Anàlisi de Dades Guanyem, 2015.*
+![Creative Commons BY-SA](creativecommons.png)*Grup d’Anàlisi de Dades Guanyem, 2015.*
 
 *© Aquesta obra està subjecta a la llicència de Reconeixement-CompartirIgual 4.0 Internacional Creative Commons. Per veure una còpia de la llicència, visiteu http://creativecommons.org/licenses/by-sa/4.0/.*
 
